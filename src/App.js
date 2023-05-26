@@ -1,17 +1,19 @@
-import { GlobalStyle } from "./style";
-import { IconStyle } from "./assets/iconfont/iconfont";
-import { RouterProvider, createBrowserRouter, useRoutes } from "react-router-dom";
-import router from "./routes";
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { GlobalStyle } from './style';
+import { IconStyle } from './assets/iconfont/iconfont';
+import router from './routes';
+import store from './store';
 
 function App() {
-  const routes=createBrowserRouter(router);
+  const routes = createBrowserRouter(router);
 
   return (
-    <div className="App">
-        <GlobalStyle></GlobalStyle>
-        <IconStyle></IconStyle>
-        <RouterProvider router={routes} />
-    </div>
+    <Provider store={store}>
+      <GlobalStyle></GlobalStyle>
+      <IconStyle></IconStyle>
+      <RouterProvider router={routes} />
+    </Provider>
   );
 }
 
