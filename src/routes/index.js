@@ -1,6 +1,5 @@
 //routes/index.js
 import React from 'react';
-import { Navigate } from "react-router-dom";
 import Home from '../application/Home';
 import Recommend from '../application/Recommend';
 import Singers from '../application/Singers';
@@ -12,7 +11,6 @@ export const pathConfig=[
           path: "/",
           exact: true,
           element: <Home />,
-          render: ()=> <Navigate to="/recommend"/>
         },
         {
           path: "/recommend",
