@@ -1,35 +1,45 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Slider from '../../components/Slider';
 import RecommendList from '../../components/RecommendList';
 import { Content } from './style';
 import Scroll from '../../components/Scroll';
+import * as actionTypes from './store/actionCreators';
+import { connect } from 'react-redux';
 
-function Recommend(params) {
-  //mock 数据:轮播图
-  const bannerList = [1, 2, 3, 4].map((item) => {
-    return { imageUrl: 'http://p1.music.126.net/ZYLJ2oZn74yUz5x8NBGkVA==/109951164331219056.jpg' };
-  });
+function Recommend(props) {
+  const { bannerList, recommendList } = props;
+  const { getBannerListDispatch, getRecommendListDispatch } = props;
 
-  // mock 数据: 推荐列表
-  const recommendList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => {
-    return {
-      id: item,
-      picUrl: 'https://p1.music.126.net/fhmefjUfMD-8qtj3JKeHbA==/18999560928537533.jpg',
-      playCount: 17171122,
-      name: '朴树、许巍、李健、郑钧、老狼、赵雷',
-    };
-  });
+  useEffect(() => {
+    // 轮播图数据
+    getBannerListDispatch();
+    // 推荐列表数据
+    getRecommendListDispatch();
+  }, [getBannerListDispatch, getRecommendListDispatch]);
+
+  const bannerListJS = bannerList ? bannerList.toJS() : [];
+  const recommendListJS = recommendList ? recommendList.toJS() : [];
 
   return (
     <Content>
       <Scroll className='list'>
         <div>
-          <Slider bannerList={bannerList}></Slider>
-          <RecommendList recommendList={recommendList} />
+          <Slider bannerList={bannerListJS}></Slider>
+          <RecommendList recommendList={recommendListJS} />
         </div>
       </Scroll>
     </Content>
   );
 }
 
-export default React.memo(Recommend);
+const mapStateToProps = (state) => ({
+  bannerList: state.getIn(['recommend', 'bannerList']),
+  recommendList: state.getIn(['recommend', 'recommendList']),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getBannerListDispatch: () => dispatch(actionTypes.getBannerList()),
+  getRecommendListDispatch: () => dispatch(actionTypes.getRecommendList()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Recommend));
