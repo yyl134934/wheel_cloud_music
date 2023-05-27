@@ -10,15 +10,15 @@ export const SliderContainer = styled.div`
   background: white;
   .before {
     position: absolute;
-    top: 0;
-    height: 60%;
+    top: -18.75rem;
+    height: 25rem;
     width: 100%;
     background-color: ${globalStyle['theme-color']};
   }
   .slider-container {
     position: relative;
     width: 98%;
-    height: 160px;
+    height: 10rem;
     overflow: hidden;
     margin: auto;
     border-radius: 6px;

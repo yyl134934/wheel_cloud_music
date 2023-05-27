@@ -24,6 +24,9 @@ export const ListItem = styled.div`
   width: 32%;
 
   .img_wrapper {
+    height: 0;
+    padding-bottom: 100%;
+
     .decorate {
       position: absolute;
       top: 0;
@@ -32,9 +35,11 @@ export const ListItem = styled.div`
       border-radius: 3px;
       background: linear-gradient(hsla(0, 0%, 43%, 0.4), hsla(0, 0%, 100%, 0));
     }
+
     position: relative;
     height: 0;
     padding-bottom: 100%;
+
     .play_count {
       position: absolute;
       right: 2px;
@@ -42,10 +47,12 @@ export const ListItem = styled.div`
       font-size: ${globalStyle['font-size-s']};
       line-height: 15px;
       color: ${globalStyle['font-color-light']};
+
       .play {
         vertical-align: top;
       }
     }
+
     img {
       position: absolute;
       width: 100%;
@@ -53,6 +60,7 @@ export const ListItem = styled.div`
       border-radius: 3px;
     }
   }
+
   .desc {
     overflow: hidden;
     margin-top: 2px;

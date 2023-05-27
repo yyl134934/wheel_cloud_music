@@ -1061,10 +1061,17 @@
   resolved "https://registry.npmmirror.com/@babel/regjsgen/-/regjsgen-0.8.0.tgz#f0ba69b075e1f05fb2825b7fad991e7adbb18310"
   integrity sha512-x/rqGMdzj+fWZvCOYForTghzbtqPDZ5gPwaoNGHdgDfF2QA/XZbCBp4Moo5scrkAMPhB7z26XM/AaHuIJdgauA==
 
-"@babel/runtime@^7.11.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.16.3", "@babel/runtime@^7.20.7", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.11.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.16.3", "@babel/runtime@^7.20.7", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
   version "7.21.5"
   resolved "https://registry.npmmirror.com/@babel/runtime/-/runtime-7.21.5.tgz#8492dddda9644ae3bda3b45eabe87382caee7200"
   integrity sha512-8jI69toZqqcsnqGGqwGS4Qb1VwLOEp4hz+CXPywcvjs60u3B4Pom/U/7rm4W8tMOYEB+E9wgD0mW1l3r8qlI9Q==
+  dependencies:
+    regenerator-runtime "^0.13.11"
+
+"@babel/runtime@^7.15.4":
+  version "7.22.0"
+  resolved "https://registry.npmmirror.com/@babel/runtime/-/runtime-7.22.0.tgz#b7ca53ae391c404037540724186038afd83e26f9"
+  integrity sha512-TT6NB0oszYQ4oxLNUdG+FNHIc3MohXVCKA2BeyQ4WeM2VCSC6wBZ6P0Yfkdzxv+87D8Xk0LJyHeCKlWMvpZt0g==
   dependencies:
     regenerator-runtime "^0.13.11"
 
@@ -1107,63 +1114,77 @@
   resolved "https://registry.npmmirror.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@better-scroll/core@^2.0.7", "@better-scroll/core@^2.5.1":
+"@better-scroll/core@^2.5.1":
   version "2.5.1"
   resolved "https://registry.npmmirror.com/@better-scroll/core/-/core-2.5.1.tgz#de53f089a2f53f51e58e5042556fe0d3e1655aa9"
   integrity sha512-koKOuYA55dQ04FJRIVUpMGDr1hbCfWmfX0MGp1hKagkQSWSRpwblqACiwtggVauoj9aaJRJZ9hDsTM4weaavlg==
   dependencies:
     "@better-scroll/shared-utils" "^2.5.1"
 
-"@better-scroll/infinity@^2.0.7":
+"@better-scroll/indicators@^2.5.1":
+  version "2.5.1"
+  resolved "https://registry.npmmirror.com/@better-scroll/indicators/-/indicators-2.5.1.tgz#a5d2da343fc6d0865846f1f8d2153eb423301be1"
+  integrity sha512-Hk+Y00pR6fTsu6C9HGg1yYZtsu1gAcTgcs4C9aM5h6fQANX/T2YIYrOSjZmdL+js2PTcXJWZS8VM4Xjoi1PbfQ==
+  dependencies:
+    "@better-scroll/core" "^2.5.1"
+
+"@better-scroll/infinity@^2.5.1":
   version "2.5.1"
   resolved "https://registry.npmmirror.com/@better-scroll/infinity/-/infinity-2.5.1.tgz#f834e9b31d4174eff25c42793efb0cf705b7fe8f"
   integrity sha512-GKHrrasIh0KlGzhASHDo5hEEBJcDFpP4XaZGPH9Ey8+QBH6/O1ykAXS2ixkVAOTkBrv+KgFXoCUr4oN1xWeM+g==
   dependencies:
     "@better-scroll/core" "^2.5.1"
 
-"@better-scroll/mouse-wheel@^2.0.7":
+"@better-scroll/mouse-wheel@^2.5.1":
   version "2.5.1"
   resolved "https://registry.npmmirror.com/@better-scroll/mouse-wheel/-/mouse-wheel-2.5.1.tgz#002d16264238122ecc7713c86eddc282ea52b79c"
   integrity sha512-DGnrirRMY6zMM7xwgx09D/cA9A//3J1/uDkq8iBVEyE5p0sEr/keQpjEfFHGkBRa505BnbBwdbN6f5lugEDSPw==
   dependencies:
     "@better-scroll/core" "^2.5.1"
 
-"@better-scroll/movable@^2.0.7":
+"@better-scroll/movable@^2.5.1":
   version "2.5.1"
   resolved "https://registry.npmmirror.com/@better-scroll/movable/-/movable-2.5.1.tgz#65a8e0942087723172f91283363e2339ad567eaf"
   integrity sha512-8bLPRY15bbK4K5+tjrtdaKsFFKmJx72wRdg+xz3xQGFcTD940HFkJiORSOcz8Ufue7eOJfcmreQJBw6XY+TqTw==
   dependencies:
     "@better-scroll/core" "^2.5.1"
 
-"@better-scroll/nested-scroll@^2.0.7":
+"@better-scroll/nested-scroll@^2.5.1":
   version "2.5.1"
   resolved "https://registry.npmmirror.com/@better-scroll/nested-scroll/-/nested-scroll-2.5.1.tgz#8aa07da6be3444eeaafe3f4b610f82785fd7f98a"
   integrity sha512-3cRsARxf9tq1VWBq7YAaET0xGAmgY1ERMmnXDo2gHFrmsJoNOionlpAeHdZvKQp2jG7JrzJ1O27nGCXf40gnkw==
   dependencies:
     "@better-scroll/core" "^2.5.1"
 
-"@better-scroll/observe-dom@^2.0.7":
+"@better-scroll/observe-dom@^2.5.1":
   version "2.5.1"
   resolved "https://registry.npmmirror.com/@better-scroll/observe-dom/-/observe-dom-2.5.1.tgz#7e69e46cba1a5b4aa36c498204e60379ac4191d8"
   integrity sha512-TCMGFLRfpXBPIwtUV/efliUmfmrhSNI7NXdSyjdWjsLOS7dh3eFkmcom5ERVWMaXVELSmujGXLqobT+dT0C/jg==
   dependencies:
     "@better-scroll/core" "^2.5.1"
 
-"@better-scroll/pull-down@^2.0.7":
+"@better-scroll/observe-image@^2.5.1":
+  version "2.5.1"
+  resolved "https://registry.npmmirror.com/@better-scroll/observe-image/-/observe-image-2.5.1.tgz#2c8279e44fa8d24614d39b14063c0483c874827c"
+  integrity sha512-0Lhfj83o8EESwOxr8bfStCzNOokTm3KB7JeyMS8u/xl+3tyTuls9889cyAukYk4Yly1cS49pCGfj2P8YOiwtUg==
+  dependencies:
+    "@better-scroll/core" "^2.5.1"
+
+"@better-scroll/pull-down@^2.5.1":
   version "2.5.1"
   resolved "https://registry.npmmirror.com/@better-scroll/pull-down/-/pull-down-2.5.1.tgz#ad1c741ddda8f771767dc455906637d0567ae449"
   integrity sha512-Y6XcGu2NlevPg3k9VBRRFvpmfoTA+rO96JGdog2qKHclIPNXnsVwsIHtZfAm9weE/f9UuC4BnB+VUFRlucfupg==
   dependencies:
     "@better-scroll/core" "^2.5.1"
 
-"@better-scroll/pull-up@^2.0.7":
+"@better-scroll/pull-up@^2.5.1":
   version "2.5.1"
   resolved "https://registry.npmmirror.com/@better-scroll/pull-up/-/pull-up-2.5.1.tgz#d5bcfd8343cdb0601b96484f410ee678c22a3a44"
   integrity sha512-1hu3xSMxdB8T391KffpNZ7g93lMwZEHjfb1F1Y4KvIkciDt8nXqkGpqrZF+YwR+EJTgYcWqUO8kgmI6XXu7Pkg==
   dependencies:
     "@better-scroll/core" "^2.5.1"
 
-"@better-scroll/scroll-bar@^2.0.7":
+"@better-scroll/scroll-bar@^2.5.1":
   version "2.5.1"
   resolved "https://registry.npmmirror.com/@better-scroll/scroll-bar/-/scroll-bar-2.5.1.tgz#89f8aea8f6beec93ecefbf98e0cb9aa51322e62b"
   integrity sha512-i6r60pWG/ztkFK2j5Gj54I0LJb2jGh5TWJNQBoW0gUkp28B+0JvBFTwZn9tF7beZCBorKR7Hvvu4O9A1TJy94Q==
@@ -1175,21 +1196,21 @@
   resolved "https://registry.npmmirror.com/@better-scroll/shared-utils/-/shared-utils-2.5.1.tgz#ed6a1b5713462fa50afd8bb7d172ca218a0b7f2e"
   integrity sha512-AplkfSjXVYP9LZiD6JsKgmgQJ/mG4uuLmBuwLz8W5OsYc7AYTfN8kw6GqZ5OwCGoXkVhBGyd8NeC4xwYItp0aw==
 
-"@better-scroll/slide@^2.0.7":
+"@better-scroll/slide@^2.5.1":
   version "2.5.1"
   resolved "https://registry.npmmirror.com/@better-scroll/slide/-/slide-2.5.1.tgz#d61788b304f305915231430e7c38b22598bcb5b9"
   integrity sha512-aDOrfsmjAcz6DXN7mDX3tPieAn195R43Yn9e3waI19TIEok/mQlI1a/kb5quqWOoxkiaZQ8xe3vx5ZTj9C+F6Q==
   dependencies:
     "@better-scroll/core" "^2.5.1"
 
-"@better-scroll/wheel@^2.0.7":
+"@better-scroll/wheel@^2.5.1":
   version "2.5.1"
   resolved "https://registry.npmmirror.com/@better-scroll/wheel/-/wheel-2.5.1.tgz#941745457780584e2ccd385b1588c88c0550f2b0"
   integrity sha512-fYLcEvkh88Z/2L+P5/+SGMunuc+HzAjGOiORIa/x21qb/knO2RFH4A/V1Rt3OIW4QluWzuFnU6jJRPlsQVZ4fg==
   dependencies:
     "@better-scroll/core" "^2.5.1"
 
-"@better-scroll/zoom@^2.0.7":
+"@better-scroll/zoom@^2.5.1":
   version "2.5.1"
   resolved "https://registry.npmmirror.com/@better-scroll/zoom/-/zoom-2.5.1.tgz#f43813c9c6cf8aa0c5745fd0cf7c605416f84f1b"
   integrity sha512-aGvFY5ooeZWS4RcxQLD+pGLpQHQxpPy0sMZV3yadcd2QK53PK9gS4Dp+BYfRv8lZ4/P2LoNEhr6Wq1DN6+uPlA==
@@ -2073,6 +2094,14 @@
   dependencies:
     "@types/node" "*"
 
+"@types/hoist-non-react-statics@^3.3.0":
+  version "3.3.1"
+  resolved "https://registry.npmmirror.com/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz#1124aafe5118cb591977aeb1ceaaed1070eb039f"
+  integrity sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA==
+  dependencies:
+    "@types/react" "*"
+    hoist-non-react-statics "^3.3.0"
+
 "@types/html-minifier-terser@^6.0.0":
   version "6.1.0"
   resolved "https://registry.npmmirror.com/@types/html-minifier-terser/-/html-minifier-terser-6.1.0.tgz#4fc33a00c1d0c16987b1a20cf92d20614c55ac35"
@@ -2173,6 +2202,16 @@
   integrity sha512-G2mHoTMTL4yoydITgOGwWdWMVd8sNgyEP85xVmMKAPUBwQWm9wBPQUmvbeF4V3WBY1P7mmL4BkjQ0SqUpf1snw==
   dependencies:
     "@types/react" "*"
+
+"@types/react-redux@^7.1.20":
+  version "7.1.25"
+  resolved "https://registry.npmmirror.com/@types/react-redux/-/react-redux-7.1.25.tgz#de841631205b24f9dfb4967dd4a7901e048f9a88"
+  integrity sha512-bAGh4e+w5D8dajd6InASVIyCo4pZLJ66oLb80F9OBLO1gKESbZcRCJpTT6uLXX+HAB57zw1WTdwJdAsewuTweg==
+  dependencies:
+    "@types/hoist-non-react-statics" "^3.3.0"
+    "@types/react" "*"
+    hoist-non-react-statics "^3.3.0"
+    redux "^4.0.0"
 
 "@types/react@*":
   version "18.2.7"
@@ -2968,23 +3007,25 @@ batch@0.6.1:
   resolved "https://registry.npmmirror.com/batch/-/batch-0.6.1.tgz#dc34314f4e679318093fc760272525f94bf25c16"
   integrity sha512-x+VAiMRL6UPkx+kudNvxTl6hB2XNNCG2r+7wixVfIYwu/2HKRXimwQyaumLjMveWvT2Hkd/cAJw+QBMfJ/EKVw==
 
-better-scroll@2.0:
-  version "2.0.7"
-  resolved "https://registry.npmmirror.com/better-scroll/-/better-scroll-2.0.7.tgz#d671084cb45d716cb6a064707c7df5988cf76fcd"
-  integrity sha512-m4BUfi4uE0uRIr9J/Wu223lDZ0jaQXXFVrSExYHaBWNlDpLDTMi1KRWPO/+ziU0qGSRejmV3eSiJWkMHzoeBQA==
+better-scroll@^2.0.0:
+  version "2.5.1"
+  resolved "https://registry.npmmirror.com/better-scroll/-/better-scroll-2.5.1.tgz#36680afff3756b84296f40c70d9d1793527a7e63"
+  integrity sha512-OiF3cQroRfTzf+CRQH2z1G52ZAlNHINI6lCAvDmyFu0o0nRuTaV9F+fmBGIU2BL5p5IplUQ4E7sYa1TLfZarzQ==
   dependencies:
-    "@better-scroll/core" "^2.0.7"
-    "@better-scroll/infinity" "^2.0.7"
-    "@better-scroll/mouse-wheel" "^2.0.7"
-    "@better-scroll/movable" "^2.0.7"
-    "@better-scroll/nested-scroll" "^2.0.7"
-    "@better-scroll/observe-dom" "^2.0.7"
-    "@better-scroll/pull-down" "^2.0.7"
-    "@better-scroll/pull-up" "^2.0.7"
-    "@better-scroll/scroll-bar" "^2.0.7"
-    "@better-scroll/slide" "^2.0.7"
-    "@better-scroll/wheel" "^2.0.7"
-    "@better-scroll/zoom" "^2.0.7"
+    "@better-scroll/core" "^2.5.1"
+    "@better-scroll/indicators" "^2.5.1"
+    "@better-scroll/infinity" "^2.5.1"
+    "@better-scroll/mouse-wheel" "^2.5.1"
+    "@better-scroll/movable" "^2.5.1"
+    "@better-scroll/nested-scroll" "^2.5.1"
+    "@better-scroll/observe-dom" "^2.5.1"
+    "@better-scroll/observe-image" "^2.5.1"
+    "@better-scroll/pull-down" "^2.5.1"
+    "@better-scroll/pull-up" "^2.5.1"
+    "@better-scroll/scroll-bar" "^2.5.1"
+    "@better-scroll/slide" "^2.5.1"
+    "@better-scroll/wheel" "^2.5.1"
+    "@better-scroll/zoom" "^2.5.1"
 
 bfj@^7.0.2:
   version "7.0.2"
@@ -4998,7 +5039,7 @@ he@^1.2.0:
   resolved "https://registry.npmmirror.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
 
-hoist-non-react-statics@^3.3.0:
+hoist-non-react-statics@^3.3.0, hoist-non-react-statics@^3.3.2:
   version "3.3.2"
   resolved "https://registry.npmmirror.com/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
   integrity sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==
@@ -5185,10 +5226,10 @@ immer@^9.0.7:
   resolved "https://registry.npmmirror.com/immer/-/immer-9.0.21.tgz#1e025ea31a40f24fb064f1fef23e931496330176"
   integrity sha512-bc4NBHqOqSfRW7POMkHd51LvClaeMXpm8dx0e8oE2GORbq5aRK7Bxl4FyzVLdGtLmvLKL7BTDBG5ACQm4HWjTA==
 
-immutable@4.0.0-rc.12:
-  version "4.0.0-rc.12"
-  resolved "https://registry.npmmirror.com/immutable/-/immutable-4.0.0-rc.12.tgz#ca59a7e4c19ae8d9bf74a97bdf0f6e2f2a5d0217"
-  integrity sha512-0M2XxkZLx/mi3t8NVwIm1g8nHoEmM9p9UBl/G9k4+hm0kBgOVdMV/B3CY5dQ8qG8qc80NN4gDV4HQv6FTJ5q7A==
+immutable@^4.0.0-rc.12:
+  version "4.3.0"
+  resolved "https://registry.npmmirror.com/immutable/-/immutable-4.3.0.tgz#eb1738f14ffb39fd068b1dbe1296117484dd34be"
+  integrity sha512-0AOCmOip+xgJwEVTQj1EfiDDOkPmuyllDuTuEX+DDXUgapLAsBIfkg3sxCYyCEA8mQqZrrxPUGjcOQ2JS3WLkg==
 
 import-fresh@^3.0.0, import-fresh@^3.1.0, import-fresh@^3.2.1:
   version "3.3.0"
@@ -5247,13 +5288,6 @@ internal-slot@^1.0.3, internal-slot@^1.0.4, internal-slot@^1.0.5:
     get-intrinsic "^1.2.0"
     has "^1.0.3"
     side-channel "^1.0.4"
-
-invariant@^2.2.4:
-  version "2.2.4"
-  resolved "https://registry.npmmirror.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
-  integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
-  dependencies:
-    loose-envify "^1.0.0"
 
 ipaddr.js@1.9.1:
   version "1.9.1"
@@ -6359,7 +6393,7 @@ lodash@^4.17.15, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.7.0:
   resolved "https://registry.npmmirror.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
-loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.4.0:
+loose-envify@^1.1.0, loose-envify@^1.4.0:
   version "1.4.0"
   resolved "https://registry.npmmirror.com/loose-envify/-/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
   integrity sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==
@@ -7746,12 +7780,12 @@ react-error-overlay@^6.0.11:
   resolved "https://registry.npmmirror.com/react-error-overlay/-/react-error-overlay-6.0.11.tgz#92835de5841c5cf08ba00ddd2d677b6d17ff9adb"
   integrity sha512-/6UZ2qgEyH2aqzYZgQPxEnz33NJ2gNsnHA2o5+o4wW9bLM/JYQitNP9xPhsXwC08hMMovfGe/8retsdDsczPRg==
 
-react-is@^16.13.1, react-is@^16.7.0, react-is@^16.9.0:
+react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
   resolved "https://registry.npmmirror.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-react-is@^17.0.1:
+react-is@^17.0.1, react-is@^17.0.2:
   version "17.0.2"
   resolved "https://registry.npmmirror.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
@@ -7761,17 +7795,17 @@ react-is@^18.0.0:
   resolved "https://registry.npmmirror.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
 
-react-redux@7.1.1:
-  version "7.1.1"
-  resolved "https://registry.npmmirror.com/react-redux/-/react-redux-7.1.1.tgz#ce6eee1b734a7a76e0788b3309bf78ff6b34fa0a"
-  integrity sha512-QsW0vcmVVdNQzEkrgzh2W3Ksvr8cqpAv5FhEk7tNEft+5pp7rXxAudTz3VOPawRkLIepItpkEIyLcN/VVXzjTg==
+react-redux@^7.1.1:
+  version "7.2.9"
+  resolved "https://registry.npmmirror.com/react-redux/-/react-redux-7.2.9.tgz#09488fbb9416a4efe3735b7235055442b042481d"
+  integrity sha512-Gx4L3uM182jEEayZfRbI/G11ZpYdNAnBs70lFVMNdHJI76XYtR+7m0MN+eAs7UHBPhWXcnFPaS+9owSCJQHNpQ==
   dependencies:
-    "@babel/runtime" "^7.5.5"
-    hoist-non-react-statics "^3.3.0"
-    invariant "^2.2.4"
+    "@babel/runtime" "^7.15.4"
+    "@types/react-redux" "^7.1.20"
+    hoist-non-react-statics "^3.3.2"
     loose-envify "^1.4.0"
     prop-types "^15.7.2"
-    react-is "^16.9.0"
+    react-is "^17.0.2"
 
 react-refresh@^0.11.0:
   version "0.11.0"
@@ -7793,7 +7827,7 @@ react-router@6.11.2, react-router@^6.11.2:
   dependencies:
     "@remix-run/router" "1.6.2"
 
-react-scripts@5.0.1:
+react-scripts@^5.0.1:
   version "5.0.1"
   resolved "https://registry.npmmirror.com/react-scripts/-/react-scripts-5.0.1.tgz#6285dbd65a8ba6e49ca8d651ce30645a6d980003"
   integrity sha512-8VAmEm/ZAwQzJ+GOMLbBsTdDKOpuZh7RPs0UymvBR2vRk4iZWCskjbFnxqjrzoIvlNNRZ3QJFx6/qDSi6zSnaQ==
@@ -7906,23 +7940,22 @@ redent@^3.0.0:
     indent-string "^4.0.0"
     strip-indent "^3.0.0"
 
-redux-immutable@4.0.0:
+redux-immutable@^4.0.0:
   version "4.0.0"
   resolved "https://registry.npmmirror.com/redux-immutable/-/redux-immutable-4.0.0.tgz#3a1a32df66366462b63691f0e1dc35e472bbc9f3"
   integrity sha512-SchSn/DWfGb3oAejd+1hhHx01xUoxY+V7TeK0BKqpkLKiQPVFf7DYzEaKmrEVxsWxielKfSK9/Xq66YyxgR1cg==
 
-redux-thunk@2.3.0:
-  version "2.3.0"
-  resolved "https://registry.npmmirror.com/redux-thunk/-/redux-thunk-2.3.0.tgz#51c2c19a185ed5187aaa9a2d08b666d0d6467622"
-  integrity sha512-km6dclyFnmcvxhAcrQV2AkZmPQjzPDjgVlQtR0EQjxZPyJ0BnMf3in1ryuR8A2qU0HldVRfxYXbFSKlI3N7Slw==
+redux-thunk@^2.3.0:
+  version "2.4.2"
+  resolved "https://registry.npmmirror.com/redux-thunk/-/redux-thunk-2.4.2.tgz#b9d05d11994b99f7a91ea223e8b04cf0afa5ef3b"
+  integrity sha512-+P3TjtnP0k/FEjcBL5FZpoovtvrTNT/UXd4/sluaSyrURlSlhLSzEdfsTBW7WsKB6yPvgd7q/iZPICFjW4o57Q==
 
-redux@4.0.4:
-  version "4.0.4"
-  resolved "https://registry.npmmirror.com/redux/-/redux-4.0.4.tgz#4ee1aeb164b63d6a1bcc57ae4aa0b6e6fa7a3796"
-  integrity sha512-vKv4WdiJxOWKxK0yRoaK3Y4pxxB0ilzVx6dszU2W8wLxlb2yikRph4iV/ymtdJ6ZxpBLFbyrxklnT5yBbQSl3Q==
+redux@^4.0.0, redux@^4.0.4:
+  version "4.2.1"
+  resolved "https://registry.npmmirror.com/redux/-/redux-4.2.1.tgz#c08f4306826c49b5e9dc901dee0452ea8fce6197"
+  integrity sha512-LAUYz4lc+Do8/g7aeRa8JkyDErK6ekstQaqWQrNRW//MY1TvCEpMtpTWvlQ+FPbWCx+Xixu/6SHt5N0HR+SB4w==
   dependencies:
-    loose-envify "^1.4.0"
-    symbol-observable "^1.2.0"
+    "@babel/runtime" "^7.9.2"
 
 regenerate-unicode-properties@^10.1.0:
   version "10.1.0"
@@ -8752,11 +8785,6 @@ swiper@^9.3.2:
   integrity sha512-Kj9Z4kXRmJR3YT/Wj+XLWj8P6IcRt+WG38uL8M3/Wny7+6sV0TlP9vnE1X+Co9c7VzNooojWGnFa+Wf/9+CUMA==
   dependencies:
     ssr-window "^4.0.2"
-
-symbol-observable@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.npmmirror.com/symbol-observable/-/symbol-observable-1.2.0.tgz#c22688aed4eab3cdc2dfeacbb561660560a00804"
-  integrity sha512-e900nM8RRtGhlV36KGEU9k65K3mPb1WV70OdjfxlG2EAuM1noi/E/BaW/uMhL7bPEssK8QV57vN3esixjUvcXQ==
 
 symbol-tree@^3.2.4:
   version "3.2.4"

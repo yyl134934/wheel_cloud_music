@@ -1,6 +1,8 @@
 import React from 'react';
 import Slider from '../../components/Slider';
 import RecommendList from '../../components/RecommendList';
+import { Content } from './style';
+import Scroll from '../../components/Scroll';
 
 function Recommend(params) {
   //mock 数据:轮播图
@@ -19,10 +21,14 @@ function Recommend(params) {
   });
 
   return (
-    <div>
-      <Slider bannerList={bannerList}></Slider>
-      <RecommendList recommendList={recommendList} />
-    </div>
+    <Content>
+      <Scroll className='list'>
+        <div>
+          <Slider bannerList={bannerList}></Slider>
+          <RecommendList recommendList={recommendList} />
+        </div>
+      </Scroll>
+    </Content>
   );
 }
 
