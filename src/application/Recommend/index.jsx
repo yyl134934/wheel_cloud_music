@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Slider from '../../components/Slider';
-import RecommendList from '../../components/RecommendList';
-import { Content } from './style';
-import Scroll from '../../components/Scroll';
+import { forceCheck } from 'react-lazyload-v18';
+import Slider from '../../components/slider';
+import RecommendList from '../../components/list';
+import Scroll from '../../baseUI/scroll';
+import Loading from '../../baseUI/loading';
 import { actionCreators as actionTypes } from './store';
+import { Content } from './style';
 
 function Recommend(props) {
   const dispatch = useDispatch();
   const recommend = useSelector((state) => state.recommend);
-  const { bannerList, recommendList } = recommend;
+  const { bannerList, recommendList, enterLoading } = recommend;
 
   useEffect(() => {
     // 轮播图数据
@@ -20,12 +22,13 @@ function Recommend(props) {
 
   return (
     <Content>
-      <Scroll className='list'>
+      <Scroll className='list' onScroll={forceCheck}>
         <div>
           <Slider bannerList={bannerList}></Slider>
           <RecommendList recommendList={recommendList} />
         </div>
       </Scroll>
+      {enterLoading ? <Loading></Loading> : null}
     </Content>
   );
 }
