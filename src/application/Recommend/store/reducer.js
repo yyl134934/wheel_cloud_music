@@ -1,20 +1,47 @@
-import { fromJS } from 'immutable';
-import { CHANGE_BANNER, CHANGE_RECOMMEDLIST } from './constants';
+import { createSlice } from '@reduxjs/toolkit';
+import { getBannerRequest, getRecommendListRequest } from '../../../api/requst';
+import { REDUCER_NAME } from './constants';
 
-const initState = fromJS({
+const initialState = {
   bannerList: [],
   recommendList: [],
+};
+
+const recommendSlice = createSlice({
+  name: REDUCER_NAME,
+  initialState,
+  reducers: {
+    changeBanner: (state, action) => {
+      state.bannerList = action.payload;
+    },
+    changeRecommendList: (state, action) => {
+      state.recommendList = action.payload;
+    },
+  },
 });
 
-const recommend = (state = initState, action) => {
-  switch (action.type) {
-    case CHANGE_BANNER:
-      return state.set('bannerList', action.data);
-    case CHANGE_RECOMMEDLIST:
-      return state.set('recommendList', action.data);
-    default:
-      return state;
+const { changeBanner, changeRecommendList } = recommendSlice.actions;
+
+// 轮播图
+const getBannerList = () => async (dispatch) => {
+  try {
+    const data = await getBannerRequest();
+    dispatch(changeBanner(data?.banners));
+  } catch (err) {
+    console.error('轮播图数据传输错误：', err);
   }
 };
 
-export default recommend;
+// 推荐列表
+const getRecommendList = () => async (dispatch) => {
+  try {
+    const data = await getRecommendListRequest();
+    dispatch(changeRecommendList(data?.result));
+  } catch (err) {
+    console.error('轮播图数据传输错误：', err);
+  }
+};
+
+export const actionCreators = { getBannerList, getRecommendList };
+
+export default recommendSlice.reducer;
