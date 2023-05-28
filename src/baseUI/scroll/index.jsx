@@ -45,6 +45,7 @@ const Scroll = forwardRef((props, ref) => {
 
     return () => {
       setBScroll(null);
+      scroll && scroll.destroy();
     };
   }, []);
 

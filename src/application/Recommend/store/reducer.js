@@ -41,7 +41,7 @@ const getRecommendList = () => async (dispatch) => {
   try {
     const data = await getRecommendListRequest();
     dispatch(changeRecommendList(data?.result));
-    // dispatch(changeEnterLoadingStatus(false));
+    dispatch(changeEnterLoadingStatus(false));
   } catch (err) {
     console.error('轮播图数据传输错误：', err);
   }

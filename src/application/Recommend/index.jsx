@@ -4,7 +4,7 @@ import { forceCheck } from 'react-lazyload-v18';
 import Slider from '../../components/slider';
 import RecommendList from '../../components/list';
 import Scroll from '../../baseUI/scroll';
-import Loading from '../../baseUI/loading';
+import { EnterLoading } from '../../baseUI/loading';
 import { actionCreators as actionTypes } from './store';
 import { Content } from './style';
 
@@ -28,7 +28,7 @@ function Recommend(props) {
           <RecommendList recommendList={recommendList} />
         </div>
       </Scroll>
-      {enterLoading ? <Loading></Loading> : null}
+      {enterLoading ? <EnterLoading></EnterLoading> : null}
     </Content>
   );
 }
