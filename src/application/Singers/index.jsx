@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Scroll from '../../baseUI/scroll';
 import Horizon from '../../baseUI/horizon-item';
 import { categoryTypes, alphaTypes } from '../../api/config';
 import { NavContainer, List, ListContainer, ListItem } from './style';
-import Scroll from '../../baseUI/scroll';
 import { actionCreators as actionTypes } from './store';
-import { EnterLoading, PullLoading } from '../../baseUI/loading';
+import { EnterLoading } from '../../baseUI/loading';
 
 function Singers(params) {
   const dispatch = useDispatch();
   const singer = useSelector((state) => state.singer);
-  const { singerList, enterLoading } = singer;
+  const { singerList, enterLoading, pullDownLoading, pullUpLoading } = singer;
   const [category, setCategory] = useState('');
   const [alpha, setAlpha] = useState('');
 
@@ -19,16 +19,38 @@ function Singers(params) {
     dispatch(actionTypes.getHotSingerList());
   }, [dispatch]);
 
-  let handleUpdateAlpha = (val) => {
+  const handleUpdateAlpha = (val) => {
     setAlpha(val);
     // 歌手
     dispatch(actionTypes.getSingerList(category, val));
   };
 
-  let handleUpdateCatetory = (val) => {
+  const handleUpdateCatetory = (val) => {
     setCategory(val);
     // 歌手
     dispatch(actionTypes.getSingerList(val, alpha));
+  };
+
+  //下拉刷新
+  const handlePullDown = () => {
+    console.info('【歌手列表】下拉刷新');
+    dispatch(actionTypes.changePullDownLoading(true));
+    dispatch(actionTypes.resetPageCount());
+    dispatch(actionTypes.getHotSingerList());
+  };
+
+  //上拉查询下一页
+  const handlePullUp = () => {
+    console.info('【歌手列表】上拉查询下一页');
+
+    if (category === '' && alpha === '') {
+      dispatch(actionTypes.resetPageCount());
+      dispatch(actionTypes.getMoreRefreshHotSingerList());
+      return;
+    }
+
+    dispatch(actionTypes.autoAddPageCount());
+    dispatch(actionTypes.getMoreRefreshSingerList(category, alpha));
   };
 
   // 渲染函数，返回歌手列表
@@ -61,7 +83,15 @@ function Singers(params) {
         <Horizon list={alphaTypes} title={'首字母:'} handleClick={handleUpdateAlpha} oldVal={alpha}></Horizon>
       </NavContainer>
       <ListContainer>
-        <Scroll direction={'vertical'}>{renderSingerList()}</Scroll>
+        <Scroll
+          direction={'vertical'}
+          pullDown={handlePullDown}
+          pullUp={handlePullUp}
+          pullUpLoading={pullUpLoading}
+          pullDownLoading={pullDownLoading}
+        >
+          {renderSingerList()}
+        </Scroll>
       </ListContainer>
       {enterLoading ? <EnterLoading></EnterLoading> : null}
     </>
