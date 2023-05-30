@@ -1,4 +1,4 @@
-import { axiosInstance } from './config';
+import { axiosInstance, categoryMap } from './config';
 
 export const getBannerRequest = () => {
   return axiosInstance.get('/banner');
@@ -12,6 +12,16 @@ export const getHotSingerListRequest = (count) => {
   return axiosInstance.get(`/top/artists?offset=${count}`);
 };
 
+function getSingerParams(category) {
+  if (category) {
+    const { type, area } = categoryMap.get(category);
+
+    return `type=${type}&area=${area}`;
+  }
+  return '';
+}
+
 export const getSingerListRequest = (category, alpha, count) => {
-  return axiosInstance.get(`/artist/list?cat=${category}&initial=${alpha.toLowerCase()}&offset=${count}`);
+  const paramsStr = getSingerParams(category);
+  return axiosInstance.get(`/artist/list?${paramsStr}&initial=${alpha.toLowerCase()}&offset=${count}`);
 };

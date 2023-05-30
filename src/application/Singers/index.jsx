@@ -7,6 +7,16 @@ import { NavContainer, List, ListContainer, ListItem } from './style';
 import { actionCreators as actionTypes } from './store';
 import { EnterLoading } from '../../baseUI/loading';
 
+/* 
+  歌手查询：
+  【热门歌手查询】：进入页面时查询（/top/artists?offset=${count}）
+  【歌手分类筛选】：点击分类标签时触发（/artist/list?cat=${category}&initial=${alpha.toLowerCase()}&offset=${count}）
+  【下拉刷新】：分两种情况：1.没有选分类标签，触发【热门歌手查询】；
+  2.有选分类标签，触发【歌手分类筛选】。两种情况offset均传0。
+  【上拉查下一页】：分两种情况：1.没有选分类标签，触发【热门歌手查询】；
+  2.有选分类标签，触发【歌手分类筛选】。两种情况offset均传n-1。
+  【页面加载能不能放到hook里管理？】
+*/
 function Singers(params) {
   const dispatch = useDispatch();
   const singer = useSelector((state) => state.singer);
@@ -16,41 +26,31 @@ function Singers(params) {
 
   useEffect(() => {
     // 热门歌手
-    dispatch(actionTypes.getHotSingerList());
+    dispatch(actionTypes.initRefresh());
   }, [dispatch]);
 
   const handleUpdateAlpha = (val) => {
     setAlpha(val);
     // 歌手
-    dispatch(actionTypes.getSingerList(category, val));
+    dispatch(actionTypes.filterSinger(category, val));
   };
 
   const handleUpdateCatetory = (val) => {
     setCategory(val);
     // 歌手
-    dispatch(actionTypes.getSingerList(val, alpha));
+    dispatch(actionTypes.filterSinger(val, alpha));
   };
 
   //下拉刷新
   const handlePullDown = () => {
     console.info('【歌手列表】下拉刷新');
-    dispatch(actionTypes.changePullDownLoading(true));
-    dispatch(actionTypes.resetPageCount());
-    dispatch(actionTypes.getHotSingerList());
+    dispatch(actionTypes.getPullDownSingerList());
   };
 
   //上拉查询下一页
   const handlePullUp = () => {
     console.info('【歌手列表】上拉查询下一页');
-
-    if (category === '' && alpha === '') {
-      dispatch(actionTypes.resetPageCount());
-      dispatch(actionTypes.getMoreRefreshHotSingerList());
-      return;
-    }
-
-    dispatch(actionTypes.autoAddPageCount());
-    dispatch(actionTypes.getMoreRefreshSingerList(category, alpha));
+    dispatch(actionTypes.getPullUpSingerList(category, alpha));
   };
 
   // 渲染函数，返回歌手列表

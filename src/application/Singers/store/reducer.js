@@ -3,7 +3,7 @@ import { getSingerListRequest, getHotSingerListRequest } from '../../../api/requ
 
 const initialState = {
   singerList: [],
-  pageCount: 0,
+  pageSize: 0,
   enterLoading: true,
   pullUpLoading: false,
   pullDownLoading: false,
@@ -16,11 +16,11 @@ const singerSlice = createSlice({
     changeSingerList: (state, action) => {
       state.singerList = action.payload;
     },
-    resetPageCount: (state, action) => {
-      state.pageCount = 0;
+    resetPageSize: (state, action) => {
+      state.pageSize = 0;
     },
-    autoAddPageCount: (state, action) => {
-      state.pageCount += 1;
+    autoAddPageSize: (state, action) => {
+      state.pageSize += 1;
     },
     changeEnterLoading: (state, action) => {
       state.enterLoading = action.payload;
@@ -35,81 +35,78 @@ const singerSlice = createSlice({
 });
 
 const { changeSingerList, changeEnterLoading } = singerSlice.actions;
-export const { resetPageCount, autoAddPageCount, changePullUpLoading, changePullDownLoading } = singerSlice.actions;
+export const { resetPageSize, autoAddPageSize, changePullUpLoading, changePullDownLoading } = singerSlice.actions;
 
-// 热门歌手列表，默认拉取
-const getHotSingerList =
-  (count = 0) =>
-  async (dispatch) => {
-    try {
-      const data = await getHotSingerListRequest(count);
-      dispatch(changeSingerList(data?.artists));
-      dispatch(changeEnterLoading(false));
-      dispatch(changePullDownLoading(false));
-    } catch (err) {
-      console.error('热门歌手列表数据传输错误：', err);
-    }
-  };
-
-// 下拉刷新
-const getRefreshHotSingerList = () => async (dispatch, getState) => {
-  dispatch(changePullDownLoading(true));
-
+// 初始化刷新
+const initRefresh = () => async (dispatch) => {
   try {
     const data = await getHotSingerListRequest(0);
-
-    dispatch(resetPageCount());
+    dispatch(autoAddPageSize());
     dispatch(changeSingerList(data?.artists));
     dispatch(changeEnterLoading(false));
     dispatch(changePullDownLoading(false));
-  } catch (err) {
-    console.error('热门歌手列表数据传输错误：', err);
-  }
-};
-
-// 上拉下一页——热门歌手列表
-const getMoreRefreshHotSingerList = () => async (dispatch, getState) => {
-  const { pageCount, singerList: oldList } = getState();
-
-  dispatch(changePullUpLoading(true));
-
-  try {
-    const data = await getHotSingerListRequest(pageCount);
-    const newCollect = [...oldList, ...data?.artists];
-
-    dispatch(autoAddPageCount(newCollect));
-    dispatch(changeSingerList(newCollect));
     dispatch(changePullUpLoading(false));
   } catch (err) {
     console.error('热门歌手列表数据传输错误：', err);
   }
 };
 
-// 歌手列表
-const getSingerList =
+// 下拉刷新
+const getPullDownSingerList = () => async (dispatch, getState) => {
+  dispatch(changePullDownLoading(true));
+
+  try {
+    const pageSize = 0;
+    const data = await getHotSingerListRequest(pageSize);
+
+    dispatch(resetPageSize());
+    dispatch(changeSingerList(data?.artists));
+    dispatch(changePullDownLoading(false));
+  } catch (err) {
+    console.error('热门歌手列表数据传输错误：', err);
+  }
+};
+
+// 歌手列表-分类筛选
+const filterSinger =
   (category, alpha, count = 0) =>
   async (dispatch) => {
+    dispatch(changeEnterLoading(true));
     try {
       const data = await getSingerListRequest(category, alpha, count);
+      dispatch(resetPageSize());
       dispatch(changeSingerList(data?.artists));
-      dispatch(changePullDownLoading(false));
-      dispatch(changePullUpLoading(false));
+      dispatch(changeEnterLoading(false));
     } catch (err) {
       console.error('歌手列表数据传输错误：', err);
     }
   };
 
+function getPullDownQuery(category = '', alpha = '', pageSize = 0) {
+  // 上拉下一页——热门歌手列表
+  if (category === '' && alpha === '') {
+    // const params = { count: pageSize + 1 };
+    return getHotSingerListRequest(pageSize + 1);
+  }
+
+  // 上拉下一页——筛选分类歌手列表
+  // const params = { category, alpha, count: pageSize + 1 };
+  return getSingerListRequest(category, alpha, pageSize + 1);
+}
+
 // 上拉下一页——带筛选分类歌手列表
-const getMoreRefreshSingerList = (category, alpha) => async (dispatch, getState) => {
-  const { pageCount, singerList: oldList } = getState();
+const getPullUpSingerList = (category, alpha) => async (dispatch, getState) => {
+  const {
+    singer: { pageSize, singerList: oldList },
+  } = getState();
 
   dispatch(changePullUpLoading(true));
 
   try {
-    const nextPageCount = pageCount + 1;
-    const data = await getSingerListRequest(category, alpha, nextPageCount);
+    const data = await getPullDownQuery(category, alpha, pageSize);
     const newCollect = [...oldList, ...data?.artists];
 
+    dispatch(autoAddPageSize());
     dispatch(changeSingerList(newCollect));
     dispatch(changePullUpLoading(false));
   } catch (err) {
@@ -118,15 +115,10 @@ const getMoreRefreshSingerList = (category, alpha) => async (dispatch, getState)
 };
 
 export const actionCreators = {
-  getSingerList,
-  getHotSingerList,
-  getMoreRefreshHotSingerList,
-  getMoreRefreshSingerList,
-  getRefreshHotSingerList,
-  resetPageCount,
-  addPageCount: autoAddPageCount,
-  changePullUpLoading,
-  changePullDownLoading,
+  initRefresh,
+  filterSinger,
+  getPullUpSingerList,
+  getPullDownSingerList,
 };
 
 export default singerSlice.reducer;
