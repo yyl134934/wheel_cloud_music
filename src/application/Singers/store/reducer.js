@@ -43,12 +43,10 @@ const initRefresh = () => async (dispatch) => {
     const data = await getHotSingerListRequest(0);
     dispatch(autoAddPageSize());
     dispatch(changeSingerList(data?.artists));
-    dispatch(changeEnterLoading(false));
-    dispatch(changePullDownLoading(false));
-    dispatch(changePullUpLoading(false));
   } catch (err) {
     console.error('热门歌手列表数据传输错误：', err);
   }
+  dispatch(changeEnterLoading(false));
 };
 
 // 下拉刷新
@@ -61,10 +59,10 @@ const getPullDownSingerList = () => async (dispatch, getState) => {
 
     dispatch(resetPageSize());
     dispatch(changeSingerList(data?.artists));
-    dispatch(changePullDownLoading(false));
   } catch (err) {
     console.error('热门歌手列表数据传输错误：', err);
   }
+  dispatch(changePullDownLoading(false));
 };
 
 // 歌手列表-分类筛选
@@ -76,21 +74,19 @@ const filterSinger =
       const data = await getSingerListRequest(category, alpha, count);
       dispatch(resetPageSize());
       dispatch(changeSingerList(data?.artists));
-      dispatch(changeEnterLoading(false));
     } catch (err) {
       console.error('歌手列表数据传输错误：', err);
     }
+    dispatch(changeEnterLoading(false));
   };
 
 function getPullDownQuery(category = '', alpha = '', pageSize = 0) {
   // 上拉下一页——热门歌手列表
   if (category === '' && alpha === '') {
-    // const params = { count: pageSize + 1 };
     return getHotSingerListRequest(pageSize + 1);
   }
 
   // 上拉下一页——筛选分类歌手列表
-  // const params = { category, alpha, count: pageSize + 1 };
   return getSingerListRequest(category, alpha, pageSize + 1);
 }
 
@@ -108,10 +104,10 @@ const getPullUpSingerList = (category, alpha) => async (dispatch, getState) => {
 
     dispatch(autoAddPageSize());
     dispatch(changeSingerList(newCollect));
-    dispatch(changePullUpLoading(false));
   } catch (err) {
     console.error('热门歌手列表数据传输错误：', err);
   }
+  dispatch(changePullUpLoading(false));
 };
 
 export const actionCreators = {
