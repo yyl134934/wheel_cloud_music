@@ -2,9 +2,19 @@ import React from 'react';
 import Lazyload from 'react-lazyload-v18';
 import { ListWrapper, ListItem, List } from './style';
 import { getCount } from '../../api/utils';
+import { useNavigate } from 'react-router';
 
 function RecommendList(props) {
   const { recommendList } = props;
+  const navigate = useNavigate();
+
+  /**
+   * 专辑详情
+   * @param {*} id
+   */
+  const enterDetail = (id) => {
+    navigate(`/recommend/${id}`);
+  };
 
   return (
     <ListWrapper>
@@ -12,7 +22,7 @@ function RecommendList(props) {
       <List>
         {recommendList.map((item, index) => {
           return (
-            <ListItem key={item.id + index}>
+            <ListItem key={item.id + index} onClick={() => enterDetail(item.id)}>
               <div className='img_wrapper'>
                 <div className='decorate'></div>
                 {/* 加此参数可以减小请求的图片资源大小 */}

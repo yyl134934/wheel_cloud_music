@@ -5,11 +5,12 @@ import { filterIndex } from '../../api/utils';
 import Scroll from '../../baseUI/scroll';
 import { EnterLoading, PullLoading } from '../../baseUI/loading';
 import { Container, List, ListItem, SongList } from './style';
-import { Outlet } from 'react-router';
+import { Outlet, useNavigate } from 'react-router';
 
 function Rank() {
   const { rankList, loading } = useSelector((state) => state.rank);
   const dispatch = useDispatch();
+  //   const navigate = useNavigate();
 
   const globalStartIndex = filterIndex(rankList);
   const officialList = rankList.slice(0, globalStartIndex);
@@ -19,7 +20,13 @@ function Rank() {
     dispatch(ActionTypes.getBannerList());
   }, [dispatch]);
 
-  const enterDetail = () => {};
+  /**
+   * 专辑详情
+   * @param {*} id
+   */
+  const enterDetail = (id) => {
+    //     navigate(`/recommend/${id}`);
+  };
 
   // 这是渲染榜单列表函数，传入 global 变量来区分不同的布局方式
   const renderRankList = (list, global) => {
@@ -78,7 +85,7 @@ function Rank() {
         </div>
       </Scroll>
       {/* {renderRoutes(props.route.routes)} */}
-      <Outlet></Outlet>
+      {/* <Outlet></Outlet> */}
     </Container>
   );
 }

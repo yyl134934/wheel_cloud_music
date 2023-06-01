@@ -7,6 +7,7 @@ import Scroll from '../../baseUI/scroll';
 import { EnterLoading } from '../../baseUI/loading';
 import { actionCreators as actionTypes } from './store';
 import { Content } from './style';
+import { Outlet } from 'react-router';
 
 function Recommend(props) {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ function Recommend(props) {
 
   return (
     <Content>
+      <Outlet></Outlet>
       <Scroll className='list' onScroll={forceCheck}>
         <div>
           <Slider bannerList={bannerList}></Slider>

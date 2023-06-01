@@ -5,6 +5,7 @@ import Home from '../application/Home';
 import Recommend from '../application/Recommend';
 import Singers from '../application/Singers';
 import Rank from '../application/Rank';
+import Album from '../application/Album';
 import NoFound from '../application/NoFound';
 
 export const pathConfig = [
@@ -19,6 +20,12 @@ export const pathConfig = [
       {
         path: 'recommend',
         element: <Recommend />,
+        children: [
+          {
+            path: ':id',
+            element: <Album />,
+          },
+        ],
       },
       {
         path: 'singers',
@@ -29,6 +36,10 @@ export const pathConfig = [
         element: <Rank />,
       },
     ],
+  },
+  {
+    path: '*',
+    element: <NoFound />,
   },
 ];
 
