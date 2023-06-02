@@ -23,7 +23,6 @@ function Recommend(props) {
 
   return (
     <Content>
-      <Outlet></Outlet>
       <Scroll className='list' onScroll={forceCheck}>
         <div>
           <Slider bannerList={bannerList}></Slider>
@@ -31,6 +30,7 @@ function Recommend(props) {
         </div>
       </Scroll>
       {enterLoading ? <EnterLoading></EnterLoading> : null}
+      <Outlet></Outlet>
     </Content>
   );
 }
