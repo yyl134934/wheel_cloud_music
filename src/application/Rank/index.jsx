@@ -25,7 +25,6 @@ function Rank() {
    * @param {*} id
    */
   const enterDetail = (id) => {
-    console.info(id);
     navigate(`${id}`);
   };
 

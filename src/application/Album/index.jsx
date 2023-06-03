@@ -5,11 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import Header from '../../baseUI/header';
 import Scroll from '../../baseUI/scroll';
 import globalStyle from '../../assets/global-style';
-import { getName, getCount } from '../../api/utils';
+import { getCount } from '../../api/utils';
 import { HEADER_HEIGHT } from '../../api/config';
 import { actionCreators as actionTypes } from './store';
-import { Container, TopDesc, Menu, SongList, SongItem } from './style';
+import { Container, TopDesc, Menu } from './style';
 import { EnterLoading } from '../../baseUI/loading';
+import SingerList from '../SongerList';
 
 function Album() {
   const [title, setTitle] = useState('歌单');
@@ -103,40 +104,6 @@ function Album() {
     );
   };
 
-  const renderSongList = () => {
-    return (
-      <SongList>
-        <div className='first_line'>
-          <div className='play_all'>
-            <i className='iconfont'>&#xe6e3;</i>
-            <span>
-              播放全部 <span className='sum'>(共{currentAlbum.tracks?.length}首)</span>
-            </span>
-          </div>
-          <div className='add_list'>
-            <i className='iconfont'>&#xe62d;</i>
-            <span>收藏({getCount(currentAlbum.subscribedCount)})</span>
-          </div>
-        </div>
-        <SongItem>
-          {currentAlbum.tracks?.map((item, index) => {
-            return (
-              <li key={index}>
-                <span className='index'>{index + 1}</span>
-                <div className='info'>
-                  <span>{item.name}</span>
-                  <span>
-                    {getName(item.ar)} - {item.al?.name}
-                  </span>
-                </div>
-              </li>
-            );
-          })}
-        </SongItem>
-      </SongList>
-    );
-  };
-
   return (
     <CSSTransition
       nodeRef={nodeRef}
@@ -154,7 +121,11 @@ function Album() {
           <div>
             {renderTopDesc()}
             {renderMenu()}
-            {renderSongList()}
+            <SingerList
+              songs={currentAlbum.tracks}
+              collectCount={currentAlbum.subscribedCount}
+              showCollect
+            ></SingerList>
           </div>
         </Scroll>
       </Container>

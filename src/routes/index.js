@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom';
 import Home from '../application/Home';
 import Recommend from '../application/Recommend';
 import Singers from '../application/Singers';
+import Singer from '../application/Singer';
 import Rank from '../application/Rank';
 import Album from '../application/Album';
 import NoFound from '../application/NoFound';
@@ -30,6 +31,12 @@ export const pathConfig = [
       {
         path: 'singers',
         element: <Singers />,
+        children: [
+          {
+            path: ':id',
+            element: <Singer />,
+          },
+        ],
       },
       {
         path: 'rank',
