@@ -49,13 +49,13 @@ export const TopDesc = styled.div`
   position: relative;
   .background {
     z-index: -1;
-    background: url (${(props) => props.background}) no-repeat;
+    background: url(${(props) => props.background}) no-repeat;
     background-position: 0 0;
     background-size: 100% 100%;
     position: absolute;
     width: 100%;
     height: 100%;
-    filter: blur (20px);
+    filter: blur(20px);
     .filter {
       position: absolute;
       z-index: 10;
@@ -63,7 +63,7 @@ export const TopDesc = styled.div`
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba (7, 17, 27, 0.2);
+      background: rgba(7, 17, 27, 0.2);
     }
   }
   .img_wrapper {
@@ -76,7 +76,7 @@ export const TopDesc = styled.div`
       width: 100%;
       height: 35px;
       border-radius: 3px;
-      background: linear-gradient (hsla (0, 0%, 43%, 0.4), hsla (0, 0%, 100%, 0));
+      background: linear-gradient(hsla(0, 0%, 43%, 0.4), hsla(0, 0%, 100%, 0));
     }
     .play_count {
       position: absolute;

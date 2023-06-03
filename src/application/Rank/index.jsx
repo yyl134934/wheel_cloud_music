@@ -10,7 +10,7 @@ import { Outlet, useNavigate } from 'react-router';
 function Rank() {
   const { rankList, loading } = useSelector((state) => state.rank);
   const dispatch = useDispatch();
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const globalStartIndex = filterIndex(rankList);
   const officialList = rankList.slice(0, globalStartIndex);
@@ -25,7 +25,8 @@ function Rank() {
    * @param {*} id
    */
   const enterDetail = (id) => {
-    //     navigate(`/recommend/${id}`);
+    console.info(id);
+    navigate(`${id}`);
   };
 
   // 这是渲染榜单列表函数，传入 global 变量来区分不同的布局方式
@@ -34,7 +35,7 @@ function Rank() {
       <List globalRank={global}>
         {list.map((item, index) => {
           return (
-            <ListItem key={`${item.coverImgId}${index}`} tracks={item.tracks} onClick={() => enterDetail(item.name)}>
+            <ListItem key={`${item.coverImgId}${index}`} tracks={item.tracks} onClick={() => enterDetail(item.id)}>
               <div className='img_wrapper'>
                 <img src={item.coverImgUrl} alt='' />
                 <div className='decorate'></div>
@@ -84,8 +85,7 @@ function Rank() {
           ) : null}
         </div>
       </Scroll>
-      {/* {renderRoutes(props.route.routes)} */}
-      {/* <Outlet></Outlet> */}
+      <Outlet></Outlet>
     </Container>
   );
 }

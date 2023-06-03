@@ -34,6 +34,12 @@ export const pathConfig = [
       {
         path: 'rank',
         element: <Rank />,
+        children: [
+          {
+            path: ':id',
+            element: <Album />,
+          },
+        ],
       },
     ],
   },
