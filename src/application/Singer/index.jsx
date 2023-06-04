@@ -101,7 +101,7 @@ function Singer() {
     >
       <Container ref={nodeRef}>
         <Header title={'歌手'} ref={header} handleClick={handleBack}></Header>
-        <ImgWrapper ref={imageWrapper} bgUrl={artist.picUrl}>
+        <ImgWrapper ref={imageWrapper} bgurl={artist.picUrl}>
           <div className='filter'></div>
         </ImgWrapper>
         <CollectButton ref={collectButton}>
