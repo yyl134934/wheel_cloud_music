@@ -101,5 +101,4 @@ export const BgLayer = styled.div`
   background: white;
   border-radius: 10px;
   z-index: 50;
-  /* filter: blur(20px); */
 `;

@@ -21,7 +21,7 @@ import { Outlet, useNavigate } from 'react-router';
 function Singers(params) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const singer = useSelector((state) => state.singer);
+  const singer = useSelector((state) => state.singers);
   const { singerList, enterLoading, pullDownLoading, pullUpLoading } = singer;
   const [category, setCategory] = useState('');
   const [alpha, setAlpha] = useState('');
