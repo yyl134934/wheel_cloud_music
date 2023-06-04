@@ -1,8 +1,11 @@
 import React from 'react';
 import { Top, Tab, TabItem } from './style';
 import { NavLink, Outlet } from 'react-router-dom';
+import Player from '../Player';
+import { useCallback } from 'react';
 
 function Home(props) {
+  const hasActivate = useCallback(({ isActive }) => (isActive ? 'selected' : ''), []);
   return (
     <div>
       <Top>
@@ -11,17 +14,17 @@ function Home(props) {
         <span className='iconfont search'>&#xe62b;</span>
       </Top>
       <Tab>
-        <NavLink to={'recommend'} className={({ isActive }) => (isActive ? 'selected' : '')}>
+        <NavLink to={'recommend'} className={hasActivate}>
           <TabItem>
             <span>推荐</span>
           </TabItem>
         </NavLink>
-        <NavLink to={'singers'} className={({ isActive }) => (isActive ? 'selected' : '')}>
+        <NavLink to={'singers'} className={hasActivate}>
           <TabItem>
             <span>歌手</span>
           </TabItem>
         </NavLink>
-        <NavLink to={'rank'} className={({ isActive }) => (isActive ? 'selected' : '')}>
+        <NavLink to={'rank'} className={hasActivate}>
           <TabItem>
             <span>排行榜</span>
           </TabItem>
@@ -29,6 +32,7 @@ function Home(props) {
       </Tab>
       {/* 渲染子路由 */}
       <Outlet />
+      <Player></Player>
     </div>
   );
 }
