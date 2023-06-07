@@ -1,10 +1,11 @@
 //normalPlayer/index.js
 import React from 'react';
 import { getName, prefixStyle } from '../../../api/utils';
-import { NormalPlayerContainer, Top, Middle, Bottom, Operators, CDWrapper } from './style';
+import { NormalPlayerContainer, Top, Middle, Bottom, Operators, CDWrapper, ProgressWrapper } from './style';
 import { CSSTransition } from 'react-transition-group';
 import { useRef } from 'react';
 import useKeyframeAnimation from './hooks';
+import ProgressBar from '../../../baseUI/progress-bar';
 
 function NormalPlayer(props) {
   const { song, fullScreen } = props;
@@ -48,6 +49,13 @@ function NormalPlayer(props) {
           </CDWrapper>
         </Middle>
         <Bottom className='bottom'>
+          <ProgressWrapper>
+            <span className='time time-l'>0:00</span>
+            <div className='progress-bar-wrapper'>
+              <ProgressBar precent={0.2} percentChange={() => {}}></ProgressBar>
+            </div>
+            <span className='time time-r'>3:24</span>
+          </ProgressWrapper>
           <Operators>
             <div className='icon i-left'>
               <i className='iconfont'>&#xe625;</i>

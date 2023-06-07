@@ -1,6 +1,6 @@
 import React from 'react';
 import { getName } from '../../../api/utils';
-import ProgressCircle from '../../../baseUI/process-circle';
+import ProgressCircle from '../../../baseUI/progress-circle';
 import { MiniPlayerContainer } from './style';
 import { CSSTransition } from 'react-transition-group';
 import { useRef } from 'react';
