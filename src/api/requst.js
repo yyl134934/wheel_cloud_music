@@ -37,3 +37,7 @@ export const getAlbumDetailRequest = (id) => {
 export const getSingerInfoRequest = (id) => {
   return axiosInstance.get(`/artists?id=${id}`);
 };
+
+export const getSongUrl = (id) => {
+  return `http://music.163.com/song/media/outer/url?id=${id}.mp3`;
+};
