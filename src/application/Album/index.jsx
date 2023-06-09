@@ -10,7 +10,8 @@ import { HEADER_HEIGHT } from '../../api/config';
 import { actionCreators as actionTypes } from './store';
 import { Container, TopDesc, Menu } from './style';
 import { EnterLoading } from '../../baseUI/loading';
-import SingerList from '../SongerList';
+import SongsList from '../SongsList';
+import MusicalNote from '../../baseUI/musical-note';
 
 function Album() {
   const [title, setTitle] = useState('歌单');
@@ -19,6 +20,7 @@ function Album() {
   const navigate = useNavigate();
   const nodeRef = useRef(null); //进出动画ref
   const headerEl = useRef(); //头部标题ref
+  const musicalNoteRef = useRef(); //音符动画ref
 
   const { currentAlbum, enterLoading } = useSelector((state) => state.album);
   const dispatch = useDispatch();
@@ -104,6 +106,10 @@ function Album() {
     );
   };
 
+  const musicAnimation = (x, y) => {
+    musicalNoteRef.current.startAnimation({ x, y });
+  };
+
   return (
     <CSSTransition
       nodeRef={nodeRef}
@@ -121,11 +127,13 @@ function Album() {
           <div>
             {renderTopDesc()}
             {renderMenu()}
-            <SingerList
+            <SongsList
               songs={currentAlbum.tracks}
               collectCount={currentAlbum.subscribedCount}
               showCollect
-            ></SingerList>
+              musicAnimation={musicAnimation}
+            ></SongsList>
+            <MusicalNote ref={musicalNoteRef}></MusicalNote>
           </div>
         </Scroll>
       </Container>

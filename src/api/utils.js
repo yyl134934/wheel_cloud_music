@@ -100,3 +100,7 @@ export const findIndex = (song, list) => {
     return song.id === item.id;
   });
 };
+
+export const isEmptyObject = (params) => {
+  return typeof params === 'object' && !Object.keys(params).length;
+};

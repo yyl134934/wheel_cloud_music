@@ -2,15 +2,32 @@ import React from 'react';
 import { SongList, SongItem } from './style';
 import { getName } from '../../api/utils';
 import { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import { actionCreator as actionTypes } from '../Player/store/reducer';
 
 const SongsList = React.forwardRef((props, refs) => {
   const { collectCount = 0, showCollect, songs = [] } = props;
+  const { musicAnimation } = props;
+  const dispatch = useDispatch();
 
   const totalCount = songs.length;
 
-  const selectItem = useCallback((e, index) => {
-    console.log(index);
-  }, []);
+  const selectItem = useCallback(
+    (e, index) => {
+      const {
+        nativeEvent: { clientX, clientY },
+      } = e;
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      dispatch(actionTypes.updatePlayList(songs));
+      dispatch(actionTypes.updateSequencePlayList(songs));
+      dispatch(actionTypes.updateCurrentIndex(index));
+      musicAnimation(clientX, clientY);
+    },
+    [dispatch, songs, musicAnimation],
+  );
 
   let songList = (list) => {
     let res = [];
@@ -42,7 +59,7 @@ const SongsList = React.forwardRef((props, refs) => {
   return (
     <SongList ref={refs} showBackground={props.showBackground}>
       <div className='first_line'>
-        <div className='play_all' onClick={(e) => selectItem(e, 0)}>
+        <div className='play_all'>
           <i className='iconfont'>&#xe6e3;</i>
           <span>
             播放全部 <span className='sum'>(共 {totalCount} 首)</span>

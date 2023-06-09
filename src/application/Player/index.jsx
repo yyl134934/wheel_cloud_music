@@ -8,6 +8,7 @@ import { getSongUrl } from '../../api/requst';
 import { usePlayingMode, useToastText } from './hooks';
 import Toast from '../../baseUI/Toast';
 import { playMode } from '../../api/config';
+import { isEmptyObject } from '../../api/utils';
 
 function Player(params) {
   const { fullScreen, playing, sequencePlayList, playList, mode, currentIndex, showPlayList, currentSong } =
@@ -31,6 +32,7 @@ function Player(params) {
     (e, state) => {
       e.stopPropagation();
       dispatch(actionTypes.togglePlaying(state));
+      // state ? audioRef.current.play() : audioRef.current.pause();
     },
     [dispatch],
   );
@@ -98,7 +100,7 @@ function Player(params) {
     if (!playList.length || currentIndex === -1 || !playList[currentIndex] || playList[currentIndex].id === preSong.id)
       return;
     const current = playList[currentIndex];
-    dispatch(actionTypes.updateCurrentIndex(0)); //currentIndex默认为-1，临时改成0
+    dispatch(actionTypes.updateCurrentIndex(currentIndex)); //currentIndex默认为-1，临时改成0
     dispatch(actionTypes.updateCurrentSong(current)); //赋值currentSong
     setPreSong(current);
     audioRef.current.src = getSongUrl(current.id); //url
@@ -110,10 +112,6 @@ function Player(params) {
   useEffect(() => {
     playing ? audioRef.current.play() : audioRef.current.pause();
   }, [playing]);
-
-  useEffect(() => {
-    dispatch(actionTypes.updateCurrentIndex(0));
-  }, [dispatch]);
 
   const normalPlayerConfig = {
     song: currentSong,
@@ -147,7 +145,11 @@ function Player(params) {
 
   return (
     <div>
-      <MiniPlayer {...miniPlayerConfig}></MiniPlayer>
+      {isEmptyObject(currentSong) ? null : (
+        <>
+          <MiniPlayer {...miniPlayerConfig}></MiniPlayer>
+        </>
+      )}
       <NormalPlayer {...normalPlayerConfig}></NormalPlayer>
       <audio ref={audioRef} onTimeUpdate={updateTime} onEnded={handleEnd}></audio>
       <Toast text={modeText} ref={toastRef}></Toast>

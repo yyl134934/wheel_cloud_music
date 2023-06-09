@@ -2,14 +2,15 @@ import React, { useRef, useState, useCallback } from 'react';
 import { Container, ImgWrapper, CollectButton, SongListWrapper, BgLayer } from './style';
 import { CSSTransition } from 'react-transition-group';
 import { useNavigate, useParams } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
 import Header from '../../baseUI/header';
 import Scroll from '../../baseUI/scroll';
 import { EnterLoading } from '../../baseUI/loading';
-import SongList from '../SongerList';
+import SongsList from '../SongsList';
 import { useEffect } from 'react';
 import { HEADER_HEIGHT } from '../../api/config';
 import { actionCreators as actionTypes } from './store';
-import { useDispatch, useSelector } from 'react-redux';
+import MusicalNote from '../../baseUI/musical-note';
 
 function Singer() {
   const { id } = useParams();
@@ -24,6 +25,7 @@ function Singer() {
   const songScroll = useRef(null);
   const header = useRef(null);
   const layer = useRef(null);
+  const musicNoteRef = useRef();
   // 图片初始高度
   const initialHeight = useRef(0);
   // 往上偏移的尺寸，露出圆角
@@ -89,6 +91,10 @@ function Singer() {
     }
   }, []);
 
+  const musicAnimation = (x, y) => {
+    musicNoteRef.current.startAnimation({ x, y });
+  };
+
   return (
     <CSSTransition
       nodeRef={nodeRef}
@@ -111,10 +117,11 @@ function Singer() {
         <BgLayer ref={layer}></BgLayer>
         <SongListWrapper ref={songScrollWrapper}>
           <Scroll ref={songScroll} onScroll={handleScroll}>
-            <SongList songs={songsOfArtist} showCollect={false}></SongList>
+            <SongsList songs={songsOfArtist} showCollect={false} musicAnimation={musicAnimation}></SongsList>
           </Scroll>
         </SongListWrapper>
         {loading ? <EnterLoading></EnterLoading> : null}
+        <MusicalNote ref={musicNoteRef}></MusicalNote>
       </Container>
     </CSSTransition>
   );
