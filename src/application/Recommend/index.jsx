@@ -8,10 +8,12 @@ import { EnterLoading } from '../../baseUI/loading';
 import { actionCreators as actionTypes } from './store';
 import { Content } from './style';
 import { Outlet } from 'react-router';
+import { isEmptyObject } from '../../api/utils';
 
 function Recommend(props) {
   const dispatch = useDispatch();
   const recommend = useSelector((state) => state.recommend);
+  const { currentSong } = useSelector((state) => state.player);
   const { bannerList, recommendList, enterLoading } = recommend;
 
   useEffect(() => {
@@ -22,7 +24,7 @@ function Recommend(props) {
   }, [dispatch]);
 
   return (
-    <Content>
+    <Content notPlaying={isEmptyObject(currentSong)}>
       <Scroll className='list' onScroll={forceCheck}>
         <div>
           <Slider bannerList={bannerList}></Slider>
