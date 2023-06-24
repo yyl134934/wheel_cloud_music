@@ -5,13 +5,14 @@ import { useQuery } from '@tanstack/react-query';
 import Header from '../../baseUI/header';
 import Scroll from '../../baseUI/scroll';
 import globalStyle from '../../assets/global-style';
-import { getCount } from '../../api/utils';
+import { getCount, isEmptyObject } from '../../api/utils';
 import { HEADER_HEIGHT } from '../../api/config';
 import { Container, TopDesc, Menu } from './style';
 import { EnterLoading } from '../../baseUI/loading';
 import SongsList from '../SongsList';
 import MusicalNote from '../../baseUI/musical-note';
 import { getAlbumDetailRequest } from '../../api/requst';
+import { usePlayingStore } from '../../store';
 
 function Album() {
   const [title, setTitle] = useState('歌单');
@@ -21,6 +22,8 @@ function Album() {
   const nodeRef = useRef(null); //进出动画ref
   const headerEl = useRef(); //头部标题ref
   const musicalNoteRef = useRef(); //音符动画ref
+
+  const { currentSong } = usePlayingStore((state) => state.state);
 
   const { id } = useParams();
 
@@ -124,7 +127,7 @@ function Album() {
       unmountOnExit
       onExited={goback}
     >
-      <Container ref={nodeRef}>
+      <Container ref={nodeRef} notPlaying={isEmptyObject(currentSong)}>
         <Header ref={headerEl} title={title} handleClick={handleBack} isMarquee={isMarquee}></Header>
         {isLoading ? <EnterLoading></EnterLoading> : null}
         <Scroll bounceTop={false} onScroll={handleScroll}>

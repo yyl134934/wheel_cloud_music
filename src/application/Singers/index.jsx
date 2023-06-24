@@ -3,10 +3,12 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import Scroll from '../../baseUI/scroll';
 import Horizon from '../../baseUI/horizon-item';
 import { categoryTypes, alphaTypes } from '../../api/config';
-import { NavContainer, List, ListContainer, ListItem } from './style';
+import { NavContainer, List, ListContainer, ListItem, Content } from './style';
 import { EnterLoading } from '../../baseUI/loading';
 import { Outlet, useNavigate } from 'react-router';
 import { getSingerListRequest } from '../../api/requst';
+import { isEmptyObject } from '../../api/utils';
+import { usePlayingStore } from '../../store';
 
 /* 
   歌手查询：
@@ -24,7 +26,7 @@ function Singers(params) {
   const [alpha, setAlpha] = useState(''); // 歌手分类
 
   const {
-    data: { pages },
+    data: { pages } = { pages: [] },
     isLoading,
     fetchNextPage,
     fetchPreviousPage,
@@ -43,6 +45,8 @@ function Singers(params) {
     },
     getPreviousPageParam: (firstPage, allPages) => 0,
   });
+
+  const { currentSong } = usePlayingStore((state) => state.state);
 
   const singerList = useMemo(() => pages?.map(({ artists }) => artists).flat() ?? [], [pages]);
 
@@ -103,7 +107,7 @@ function Singers(params) {
         ></Horizon>
         <Horizon list={alphaTypes} title={'首字母:'} handleClick={handleUpdateAlpha} oldVal={alpha}></Horizon>
       </NavContainer>
-      <ListContainer>
+      <ListContainer notPlaying={isEmptyObject(currentSong)}>
         <Scroll
           direction={'vertical'}
           pullDown={handlePullDown}

@@ -105,14 +105,14 @@ const Scroll = forwardRef((props, ref) => {
   return (
     <ScrollContainer ref={scrollContaninerRef}>
       {props.children}
-      {/* 滑到底部加载动画 */}
-      <PullUpLoading style={PullUpdisplayStyle}>
-        <EnterLoading></EnterLoading>
-      </PullUpLoading>
       {/* 顶部下拉刷新动画 */}
       <PullDownLoading style={PullDowndisplayStyle}>
         <PullLoading></PullLoading>
       </PullDownLoading>
+      {/* 滑到底部加载动画 */}
+      <PullUpLoading style={PullUpdisplayStyle}>
+        <EnterLoading></EnterLoading>
+      </PullUpLoading>
     </ScrollContainer>
   );
 });

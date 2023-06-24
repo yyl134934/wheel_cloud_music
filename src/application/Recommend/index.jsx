@@ -9,6 +9,7 @@ import { Outlet } from 'react-router';
 import { isEmptyObject } from '../../api/utils';
 import { useQuery } from '@tanstack/react-query';
 import { getRecommendListRequest, getBannerRequest } from '../../api/requst';
+import { usePlayingStore } from '../../store';
 
 function Recommend(props) {
   // 轮播图数据
@@ -22,18 +23,17 @@ function Recommend(props) {
     refetchOnWindowFocus: false,
   });
   // 推荐列表数据
-  const {
-    data: { result: recommendList = [] },
-    isLoading: isRecommendLoading,
-  } = useQuery({
+  const { data: { result: recommendList = [] } = { result: [] }, isLoading: isRecommendLoading } = useQuery({
     queryKey: ['recommendList'],
     queryFn: getRecommendListRequest,
-    initialData: { recommendList: [] },
+    initialData: { result: [] },
     refetchOnWindowFocus: false,
   });
 
+  const { currentSong } = usePlayingStore((state) => state.state);
+
   return (
-    <Content notPlaying={isEmptyObject({})}>
+    <Content notPlaying={isEmptyObject(currentSong)}>
       <Scroll className='list' onScroll={forceCheck}>
         <div>
           <Slider bannerList={bannerList}></Slider>

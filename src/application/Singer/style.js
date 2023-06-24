@@ -83,7 +83,7 @@ export const SongListWrapper = styled.div`
   z-index: 50;
   top: 0;
   left: 0;
-  bottom: 0;
+  bottom: ${(props) => (props.notPlaying ? 0 : '60px')};
   right: 0;
   > div {
     position: absolute;

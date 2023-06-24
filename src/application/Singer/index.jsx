@@ -11,6 +11,8 @@ import { HEADER_HEIGHT } from '../../api/config';
 import MusicalNote from '../../baseUI/musical-note';
 import { getSingerInfoRequest } from '../../api/requst';
 import { useQuery } from '@tanstack/react-query';
+import { isEmptyObject } from '../../api/utils';
+import { usePlayingStore } from '../../store';
 
 function Singer() {
   const { id } = useParams();
@@ -47,6 +49,8 @@ function Singer() {
     initialData: { artist: {}, hotSongs: [] },
     refetchOnWindowFocus: false,
   });
+
+  const { currentSong } = usePlayingStore((state) => state.state);
 
   const handleBack = useCallback(() => {
     setShowStatus(false);
@@ -119,7 +123,7 @@ function Singer() {
           <span className='text'>收藏</span>
         </CollectButton>
         <BgLayer ref={layer}></BgLayer>
-        <SongListWrapper ref={songScrollWrapper}>
+        <SongListWrapper ref={songScrollWrapper} notPlaying={isEmptyObject(currentSong)}>
           <Scroll ref={songScroll} onScroll={handleScroll}>
             <SongsList songs={songsOfArtist} showCollect={false} musicAnimation={musicAnimation}></SongsList>
           </Scroll>

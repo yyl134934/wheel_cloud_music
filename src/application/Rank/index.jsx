@@ -1,23 +1,23 @@
 import React from 'react';
-import { filterIndex } from '../../api/utils';
+import { filterIndex, isEmptyObject } from '../../api/utils';
 import Scroll from '../../baseUI/scroll';
 import { EnterLoading, PullLoading } from '../../baseUI/loading';
 import { Container, List, ListItem, SongList } from './style';
 import { Outlet, useNavigate } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import { getRankListRequest } from '../../api/requst';
+import { usePlayingStore } from '../../store';
 
 function Rank() {
   const navigate = useNavigate();
-  const {
-    isLoading,
-    data: { list: rankList = [] },
-  } = useQuery({
+  const { isLoading, data: { list: rankList = [] } = { list: [] } } = useQuery({
     queryKey: ['rank'],
     queryFn: getRankListRequest,
     initialData: { list: [] },
     refetchOnWindowFocus: false,
   });
+
+  const { currentSong } = usePlayingStore((state) => state.state);
 
   const globalStartIndex = filterIndex(rankList);
   const officialList = rankList.slice(0, globalStartIndex);
@@ -69,7 +69,7 @@ function Rank() {
   let displayStyle = isLoading ? { display: 'none' } : { display: '' };
 
   return (
-    <Container>
+    <Container notPlaying={isEmptyObject(currentSong)}>
       <Scroll>
         <div>
           <h1 className='offical' style={displayStyle}>

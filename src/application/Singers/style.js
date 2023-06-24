@@ -13,7 +13,7 @@ export const ListContainer = styled.div`
   position: fixed;
   top: 160px;
   left: 0;
-  bottom: 0;
+  bottom: ${(props) => (props.notPlaying ? 0 : '60px')};
   overflow: hidden;
   width: 100%;
 `;
