@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { CSSTransition } from 'react-transition-group';
 import { useQuery } from '@tanstack/react-query';
@@ -22,7 +22,6 @@ function Album() {
   const headerEl = useRef(); //头部标题ref
   const musicalNoteRef = useRef(); //音符动画ref
 
-  // const { currentAlbum, enterLoading } = useSelector((state) => state.album);
   const { id } = useParams();
 
   const {
@@ -32,6 +31,7 @@ function Album() {
     queryKey: ['album', id],
     queryFn: () => getAlbumDetailRequest(id),
     initialData: { playlist: [] },
+    refetchOnWindowFocus: false,
   });
 
   const handleScroll = (pos) => {

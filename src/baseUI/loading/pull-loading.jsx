@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
+import { PropTypes } from 'prop-types';
 import style from '../../assets/global-style';
 
 const dance = keyframes`
@@ -39,7 +40,7 @@ const LoadingWrapper = styled.div`
   }
 `;
 
-function Loading() {
+const Loading = ({ show }) => {
   return (
     <LoadingWrapper>
       <div></div>
@@ -50,6 +51,14 @@ function Loading() {
       <span>拼命加载中...</span>
     </LoadingWrapper>
   );
-}
+};
+
+Loading.defaultProps = {
+  show: true,
+};
+
+Loading.propTypes = {
+  show: PropTypes.bool,
+};
 
 export default React.memo(Loading);

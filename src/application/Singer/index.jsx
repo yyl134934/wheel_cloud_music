@@ -2,21 +2,19 @@ import React, { useRef, useState, useCallback } from 'react';
 import { Container, ImgWrapper, CollectButton, SongListWrapper, BgLayer } from './style';
 import { CSSTransition } from 'react-transition-group';
 import { useNavigate, useParams } from 'react-router';
-import { useDispatch, useSelector } from 'react-redux';
 import Header from '../../baseUI/header';
 import Scroll from '../../baseUI/scroll';
 import { EnterLoading } from '../../baseUI/loading';
 import SongsList from '../SongsList';
 import { useEffect } from 'react';
 import { HEADER_HEIGHT } from '../../api/config';
-import { actionCreators as actionTypes } from './store';
 import MusicalNote from '../../baseUI/musical-note';
+import { getSingerInfoRequest } from '../../api/requst';
+import { useQuery } from '@tanstack/react-query';
 
 function Singer() {
   const { id } = useParams();
-  const { artist, songsOfArtist, loading } = useSelector((state) => state.singer);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [showStatus, setShowStatus] = useState(true);
   const nodeRef = useRef(null);
   const collectButton = useRef(null);
@@ -40,9 +38,15 @@ function Singer() {
     songScroll.current.refresh();
   }, []);
 
-  useEffect(() => {
-    dispatch(actionTypes.getSingerInfo(id));
-  }, [id, dispatch]);
+  const {
+    isLoading,
+    data: { artist, hotSongs: songsOfArtist },
+  } = useQuery({
+    queryKey: ['singer', id],
+    queryFn: () => getSingerInfoRequest(id),
+    initialData: { artist: {}, hotSongs: [] },
+    refetchOnWindowFocus: false,
+  });
 
   const handleBack = useCallback(() => {
     setShowStatus(false);
@@ -120,7 +124,7 @@ function Singer() {
             <SongsList songs={songsOfArtist} showCollect={false} musicAnimation={musicAnimation}></SongsList>
           </Scroll>
         </SongListWrapper>
-        {loading ? <EnterLoading></EnterLoading> : null}
+        {isLoading ? <EnterLoading></EnterLoading> : null}
         <MusicalNote ref={musicNoteRef}></MusicalNote>
       </Container>
     </CSSTransition>

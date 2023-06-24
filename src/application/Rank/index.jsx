@@ -1,24 +1,27 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { actionCreators as ActionTypes } from './store';
+import React from 'react';
 import { filterIndex } from '../../api/utils';
 import Scroll from '../../baseUI/scroll';
 import { EnterLoading, PullLoading } from '../../baseUI/loading';
 import { Container, List, ListItem, SongList } from './style';
 import { Outlet, useNavigate } from 'react-router';
+import { useQuery } from '@tanstack/react-query';
+import { getRankListRequest } from '../../api/requst';
 
 function Rank() {
-  const { rankList, loading } = useSelector((state) => state.rank);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const {
+    isLoading,
+    data: { list: rankList = [] },
+  } = useQuery({
+    queryKey: ['rank'],
+    queryFn: getRankListRequest,
+    initialData: { list: [] },
+    refetchOnWindowFocus: false,
+  });
 
   const globalStartIndex = filterIndex(rankList);
   const officialList = rankList.slice(0, globalStartIndex);
   const globalList = rankList.slice(globalStartIndex);
-
-  useEffect(() => {
-    dispatch(ActionTypes.getBannerList());
-  }, [dispatch]);
 
   /**
    * 专辑详情
@@ -63,7 +66,7 @@ function Rank() {
   };
 
   // 榜单数据未加载出来之前都给隐藏
-  let displayStyle = loading ? { display: 'none' } : { display: '' };
+  let displayStyle = isLoading ? { display: 'none' } : { display: '' };
 
   return (
     <Container>
@@ -77,7 +80,7 @@ function Rank() {
             全球榜
           </h1>
           {renderRankList(globalList, true)}
-          {loading ? (
+          {isLoading ? (
             <EnterLoading>
               <PullLoading></PullLoading>
             </EnterLoading>
