@@ -1,19 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import MiniPlayer from './miniPlayer';
 import NormalPlayer from './normalPlayer';
-import { actionCreator as actionTypes } from './store';
 import { useCallback } from 'react';
 import { getSongUrl } from '../../api/requst';
 import { usePlayingMode, useToastText } from './hooks';
 import Toast from '../../baseUI/Toast';
 import { playMode } from '../../api/config';
 import { isEmptyObject } from '../../api/utils';
+import { usePlayingStore } from '../../store';
 
 function Player(params) {
   const { fullScreen, playing, sequencePlayList, playList, mode, currentIndex, showPlayList, currentSong } =
-    useSelector((state) => state.player);
-  const dispatch = useDispatch();
+    usePlayingStore((state) => state.state);
+  const { togglePlaying, toggleFullScreen, updateCurrentIndex, updateCurrentSong } = usePlayingStore(
+    (state) => state.actions,
+  );
   const toastRef = useRef(null);
   const audioRef = useRef(null);
   //记录当前的歌曲，以便于下次重渲染时比对是否是一首歌
@@ -28,21 +29,11 @@ function Player(params) {
   const changePlayingMode = usePlayingMode();
   const { modeText, changeToastText } = useToastText(toastRef);
 
-  const clickPlaying = useCallback(
-    (e, state) => {
-      e.stopPropagation();
-      dispatch(actionTypes.togglePlaying(state));
-      // state ? audioRef.current.play() : audioRef.current.pause();
-    },
-    [dispatch],
-  );
-
-  const toggleFullScreen = useCallback(
-    (params) => {
-      dispatch(actionTypes.toggleFullScreen(params));
-    },
-    [dispatch],
-  );
+  const clickPlaying = useCallback((e, state) => {
+    e.stopPropagation();
+    togglePlaying(state);
+    // state ? audioRef.current.play() : audioRef.current.pause();
+  }, []);
 
   const updateTime = (e) => {
     setCurrentTime(e.target.currentTime);
@@ -53,14 +44,14 @@ function Player(params) {
     setCurrentTime(newTime);
     audioRef.current.currentTime = newTime;
     if (!playing) {
-      dispatch(actionTypes.togglePlaying(true));
+      togglePlaying(true);
     }
   };
 
   //一首歌循环
   const handleLoop = () => {
     audioRef.current.currentTime = 0;
-    dispatch(actionTypes.togglePlaying(true));
+    togglePlaying(true);
     audioRef.current.play();
   };
 
@@ -72,8 +63,8 @@ function Player(params) {
     }
     let index = currentIndex - 1;
     if (index < 0) index = playList.length - 1;
-    if (!playing) dispatch(actionTypes.togglePlaying(true));
-    dispatch(actionTypes.updateCurrentIndex(index));
+    if (!playing) togglePlaying(true);
+    updateCurrentIndex(index);
   };
 
   const handleNext = () => {
@@ -84,8 +75,8 @@ function Player(params) {
     }
     let index = currentIndex + 1;
     if (index === playList.length) index = 0;
-    if (!playing) dispatch(actionTypes.togglePlaying(true));
-    dispatch(actionTypes.updateCurrentIndex(index));
+    if (!playing) togglePlaying(true);
+    updateCurrentIndex(index);
   };
 
   const handleEnd = () => {
@@ -100,14 +91,14 @@ function Player(params) {
     if (!playList.length || currentIndex === -1 || !playList[currentIndex] || playList[currentIndex].id === preSong.id)
       return;
     const current = playList[currentIndex];
-    dispatch(actionTypes.updateCurrentIndex(currentIndex)); //currentIndex默认为-1，临时改成0
-    dispatch(actionTypes.updateCurrentSong(current)); //赋值currentSong
+    updateCurrentIndex(currentIndex); //currentIndex默认为-1，临时改成0
+    updateCurrentSong(current); //赋值currentSong
     setPreSong(current);
     audioRef.current.src = getSongUrl(current.id); //url
-    dispatch(actionTypes.togglePlaying(true)); //播放状态
+    togglePlaying(true); //播放状态
     setCurrentTime(0); //从头开始播放
     setDuration((current.dt / 1000) | 0); //时长
-  }, [dispatch, playList, currentIndex, preSong]);
+  }, [playList, currentIndex, preSong]);
 
   useEffect(() => {
     playing ? audioRef.current.play() : audioRef.current.pause();

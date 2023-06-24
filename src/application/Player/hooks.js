@@ -1,34 +1,33 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { actionCreator as actionTypes } from './store';
 import { findIndex, shuffle } from '../../api/utils';
 import { useCallback } from 'react';
 import { useMemo } from 'react';
 import { useState } from 'react';
+import { usePlayingStore } from '../../store';
 
 const usePlayingMode = () => {
-  const { sequencePlayList, mode, currentSong } = useSelector((state) => state.player);
-  const dispatch = useDispatch();
+  const { sequencePlayList, mode, currentSong } = usePlayingStore((state) => state.state);
+  const { updatePlayList, updateCurrentIndex, updatePlayMode } = usePlayingStore((state) => state.actions);
 
   const orderMode = useCallback(() => {
     //顺序模式
     const index = findIndex(currentSong, sequencePlayList);
-    dispatch(actionTypes.updatePlayList(sequencePlayList));
-    dispatch(actionTypes.updateCurrentIndex(index));
-  }, [currentSong, sequencePlayList, dispatch]);
+    updatePlayList(sequencePlayList);
+    updateCurrentIndex(index);
+  }, [currentSong, sequencePlayList]);
 
   const singleMode = useCallback(() => {
     //单曲循环
-    dispatch(actionTypes.updatePlayList(sequencePlayList));
-  }, [dispatch, sequencePlayList]);
+    updatePlayList(sequencePlayList);
+  }, [sequencePlayList]);
 
   const randomMode = useCallback(() => {
     //随机播放
     const newList = shuffle(sequencePlayList);
     const index = findIndex(currentSong, newList);
-    dispatch(actionTypes.updatePlayList(newList));
-    dispatch(actionTypes.updateCurrentIndex(index));
-  }, [dispatch, currentSong, sequencePlayList]);
+    updatePlayList(newList);
+    updateCurrentIndex(index);
+  }, [currentSong, sequencePlayList]);
 
   const modeMap = useMemo(
     () => ({
@@ -45,14 +44,14 @@ const usePlayingMode = () => {
 
     modeFunc && modeFunc();
 
-    dispatch(actionTypes.updatePlayMode(newMode));
-  }, [dispatch, modeMap, mode]);
+    updatePlayMode(newMode);
+  }, [modeMap, mode]);
 
   return changePlayingMode;
 };
 
 const useToastText = (toastRef) => {
-  const { mode } = useSelector((state) => state.player);
+  const { mode } = usePlayingStore((state) => state.state);
   const [modeText, setModeText] = useState('');
 
   const modeMap = useMemo(

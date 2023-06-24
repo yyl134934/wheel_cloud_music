@@ -2,11 +2,12 @@ import React from 'react';
 import { SongList, SongItem } from './style';
 import { getName } from '../../api/utils';
 import { useCallback } from 'react';
+import { usePlayingStore } from '../../store';
 
 const SongsList = React.forwardRef((props, refs) => {
   const { collectCount = 0, showCollect, songs = [] } = props;
   const { musicAnimation } = props;
-
+  const { updatePlayList, updateSequencePlayList, updateCurrentIndex } = usePlayingStore((state) => state.actions);
   const totalCount = songs.length;
 
   const selectItem = useCallback(
@@ -18,9 +19,9 @@ const SongsList = React.forwardRef((props, refs) => {
       e.preventDefault();
       e.stopPropagation();
 
-      // dispatch(actionTypes.updatePlayList(songs));
-      // dispatch(actionTypes.updateSequencePlayList(songs));
-      // dispatch(actionTypes.updateCurrentIndex(index));
+      updatePlayList(songs);
+      updateSequencePlayList(songs);
+      updateCurrentIndex(index);
       musicAnimation(clientX, clientY);
     },
     [songs, musicAnimation],
