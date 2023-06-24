@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useMemo, useState } from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import Scroll from '../../baseUI/scroll';
 import Horizon from '../../baseUI/horizon-item';
 import { categoryTypes, alphaTypes } from '../../api/config';
 import { NavContainer, List, ListContainer, ListItem } from './style';
-import { actionCreators as actionTypes } from './store';
 import { EnterLoading } from '../../baseUI/loading';
 import { Outlet, useNavigate } from 'react-router';
+import { getSingerListRequest } from '../../api/requst';
 
 /* 
   歌手查询：
@@ -16,43 +16,54 @@ import { Outlet, useNavigate } from 'react-router';
   2.有选分类标签，触发【歌手分类筛选】。两种情况offset均传0。
   【上拉查下一页】：分两种情况：1.没有选分类标签，触发【热门歌手查询】；
   2.有选分类标签，触发【歌手分类筛选】。两种情况offset均传n-1。
-  【页面加载能不能放到hook里管理？】
 */
 function Singers(params) {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const singer = useSelector((state) => state.singers);
-  const { singerList, enterLoading, pullDownLoading, pullUpLoading } = singer;
-  const [category, setCategory] = useState('');
-  const [alpha, setAlpha] = useState('');
 
-  useEffect(() => {
-    // 热门歌手
-    dispatch(actionTypes.initRefresh());
-  }, [dispatch]);
+  const [category, setCategory] = useState(''); // 首字母
+  const [alpha, setAlpha] = useState(''); // 歌手分类
+
+  const {
+    data: { pages },
+    isLoading,
+    fetchNextPage,
+    fetchPreviousPage,
+    isFetchingNextPage,
+    isFetchingPreviousPage,
+  } = useInfiniteQuery({
+    queryKey: ['singer', { category, alpha }],
+    queryFn: ({ pageParam = 0 }) => getSingerListRequest(category, alpha, pageParam),
+    initialData: { pages: [] },
+    refetchOnWindowFocus: false,
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage?.artists?.length === 0) {
+        return undefined;
+      }
+      return allPages.length;
+    },
+    getPreviousPageParam: (firstPage, allPages) => 0,
+  });
+
+  const singerList = useMemo(() => pages?.map(({ artists }) => artists).flat() ?? [], [pages]);
 
   const handleUpdateAlpha = (val) => {
     setAlpha(val);
-    // 歌手
-    dispatch(actionTypes.filterSinger(category, val));
   };
 
   const handleUpdateCatetory = (val) => {
     setCategory(val);
-    // 歌手
-    dispatch(actionTypes.filterSinger(val, alpha));
   };
 
   //下拉刷新
   const handlePullDown = () => {
     console.info('【歌手列表】下拉刷新');
-    dispatch(actionTypes.getPullDownSingerList());
+    fetchPreviousPage();
   };
 
   //上拉查询下一页
   const handlePullUp = () => {
     console.info('【歌手列表】上拉查询下一页');
-    dispatch(actionTypes.getPullUpSingerList(category, alpha));
+    fetchNextPage();
   };
 
   /**
@@ -97,14 +108,14 @@ function Singers(params) {
           direction={'vertical'}
           pullDown={handlePullDown}
           pullUp={handlePullUp}
-          pullUpLoading={pullUpLoading}
-          pullDownLoading={pullDownLoading}
+          pullUpLoading={isFetchingPreviousPage}
+          pullDownLoading={isFetchingNextPage}
         >
           {renderSingerList()}
         </Scroll>
       </ListContainer>
       <Outlet></Outlet>
-      {enterLoading ? <EnterLoading></EnterLoading> : null}
+      {isLoading ? <EnterLoading></EnterLoading> : null}
     </>
   );
 }

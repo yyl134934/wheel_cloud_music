@@ -4,8 +4,8 @@ import { Navigate } from 'react-router-dom';
 import Home from '../application/Home';
 import Recommend from '../application/Recommend';
 import Singers from '../application/Singers';
-import Singer from '../application/Singer';
-import Rank from '../application/Rank';
+// import Singer from '../application/Singer';
+// import Rank from '../application/Rank';
 import Album from '../application/Album';
 import NoFound from '../application/NoFound';
 
@@ -16,7 +16,7 @@ export const pathConfig = [
     children: [
       {
         path: '',
-        element: <Navigate to='/recommend' replace={true} />,
+        element: <Navigate to='recommend' replace={true} />,
       },
       {
         path: 'recommend',
@@ -31,23 +31,23 @@ export const pathConfig = [
       {
         path: 'singers',
         element: <Singers />,
-        children: [
-          {
-            path: ':id',
-            element: <Singer />,
-          },
-        ],
+        // children: [
+        //   {
+        //     path: ':id',
+        //     element: <Singer />,
+        //   },
+        // ],
       },
-      {
-        path: 'rank',
-        element: <Rank />,
-        children: [
-          {
-            path: ':id',
-            element: <Album />,
-          },
-        ],
-      },
+      // {
+      //   path: 'rank',
+      //   element: <Rank />,
+      //   children: [
+      //     {
+      //       path: ':id',
+      //       element: <Album />,
+      //     },
+      //   ],
+      // },
     ],
   },
   {

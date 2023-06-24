@@ -1,17 +1,17 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { CSSTransition } from 'react-transition-group';
-import { useDispatch, useSelector } from 'react-redux';
+import { useQuery } from '@tanstack/react-query';
 import Header from '../../baseUI/header';
 import Scroll from '../../baseUI/scroll';
 import globalStyle from '../../assets/global-style';
 import { getCount } from '../../api/utils';
 import { HEADER_HEIGHT } from '../../api/config';
-import { actionCreators as actionTypes } from './store';
 import { Container, TopDesc, Menu } from './style';
 import { EnterLoading } from '../../baseUI/loading';
 import SongsList from '../SongsList';
 import MusicalNote from '../../baseUI/musical-note';
+import { getAlbumDetailRequest } from '../../api/requst';
 
 function Album() {
   const [title, setTitle] = useState('歌单');
@@ -22,13 +22,17 @@ function Album() {
   const headerEl = useRef(); //头部标题ref
   const musicalNoteRef = useRef(); //音符动画ref
 
-  const { currentAlbum, enterLoading } = useSelector((state) => state.album);
-  const dispatch = useDispatch();
+  // const { currentAlbum, enterLoading } = useSelector((state) => state.album);
   const { id } = useParams();
 
-  useEffect(() => {
-    dispatch(actionTypes.getAlbumDetail(id));
-  }, [dispatch, id]);
+  const {
+    isLoading,
+    data: { playlist: currentAlbum = [] },
+  } = useQuery({
+    queryKey: ['album', id],
+    queryFn: () => getAlbumDetailRequest(id),
+    initialData: { playlist: [] },
+  });
 
   const handleScroll = (pos) => {
     let minScrollY = -HEADER_HEIGHT;
@@ -122,7 +126,7 @@ function Album() {
     >
       <Container ref={nodeRef}>
         <Header ref={headerEl} title={title} handleClick={handleBack} isMarquee={isMarquee}></Header>
-        {enterLoading ? <EnterLoading></EnterLoading> : null}
+        {isLoading ? <EnterLoading></EnterLoading> : null}
         <Scroll bounceTop={false} onScroll={handleScroll}>
           <div>
             {renderTopDesc()}

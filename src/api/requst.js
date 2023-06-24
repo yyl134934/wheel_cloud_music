@@ -22,6 +22,9 @@ function getSingerParams(category) {
 }
 
 export const getSingerListRequest = (category, alpha, count) => {
+  if (!category && !alpha) {
+    return getHotSingerListRequest(count);
+  }
   const paramsStr = getSingerParams(category);
   return axiosInstance.get(`/artist/list?${paramsStr}&initial=${alpha.toLowerCase()}&offset=${count}`);
 };

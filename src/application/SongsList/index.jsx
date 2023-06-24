@@ -2,13 +2,10 @@ import React from 'react';
 import { SongList, SongItem } from './style';
 import { getName } from '../../api/utils';
 import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-import { actionCreator as actionTypes } from '../Player/store/reducer';
 
 const SongsList = React.forwardRef((props, refs) => {
   const { collectCount = 0, showCollect, songs = [] } = props;
   const { musicAnimation } = props;
-  const dispatch = useDispatch();
 
   const totalCount = songs.length;
 
@@ -21,12 +18,12 @@ const SongsList = React.forwardRef((props, refs) => {
       e.preventDefault();
       e.stopPropagation();
 
-      dispatch(actionTypes.updatePlayList(songs));
-      dispatch(actionTypes.updateSequencePlayList(songs));
-      dispatch(actionTypes.updateCurrentIndex(index));
+      // dispatch(actionTypes.updatePlayList(songs));
+      // dispatch(actionTypes.updateSequencePlayList(songs));
+      // dispatch(actionTypes.updateCurrentIndex(index));
       musicAnimation(clientX, clientY);
     },
-    [dispatch, songs, musicAnimation],
+    [songs, musicAnimation],
   );
 
   let songList = (list) => {

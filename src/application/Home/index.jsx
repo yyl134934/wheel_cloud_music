@@ -1,7 +1,7 @@
 import React from 'react';
 import { Top, Tab, TabItem } from './style';
 import { NavLink, Outlet } from 'react-router-dom';
-import Player from '../Player';
+// import Player from '../Player';
 import { useCallback } from 'react';
 
 function Home(props) {
@@ -32,7 +32,7 @@ function Home(props) {
       </Tab>
       {/* 渲染子路由 */}
       <Outlet />
-      <Player></Player>
+      {/* <Player></Player> */}
     </div>
   );
 }
