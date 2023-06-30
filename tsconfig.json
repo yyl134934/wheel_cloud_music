@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "target": "es5", // 将 TypeScript 编译为 ES5 代码
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext" // 使用的 JavaScript 标准库
+    ],
+    "allowJs": true, // 允许在 TypeScript 文件中包含 JavaScript 代码
+    "skipLibCheck": true, // 跳过声明文件类型检查
+    "esModuleInterop": true, // 启用模块的默认导入和导出方法
+    "allowSyntheticDefaultImports": true, // 如果模块没有默认导出，允许将整个模块用作默认导入
+    "strict": true, // 启用所有严格的类型检查选项
+    "forceConsistentCasingInFileNames": true, // 强制文件名区分大小写
+    "noFallthroughCasesInSwitch": true, // 防止在 switch 语句中出现掉落的 case
+    "module": "esnext", // 指定生成模块代码的模块系统
+    "moduleResolution": "node", // 解析模块的算法
+    "resolveJsonModule": true, // 允许导入 JSON 模块
+    "isolatedModules": true, // 可以将每个文件作为单独的模块编译
+    "noEmit": true, // 不输出编译后生成的任何文件
+    "jsx": "react-jsx", // 指定 JSX 语法类型
+    "baseUrl": "./", // 设置根路径
+    "paths": {
+      // 路径映射，与 baseUrl 关联
+      "Src/*": ["src/*"], // 将 "Src/*" 映射到 "src/*"
+      "Components/*": ["src/components/*"], // 将 "Components/*" 映射到 "src/components/*"
+      "Api/*": ["src/api/*"], // 将 "Api/*" 映射到 "src/api/*"
+      "BaseUI/*": ["src/baseUI/*"], // 将 "BaseUI/*" 映射到 "src/baseUI/*"
+      "Utils/*": ["src/utils/*"] // 将 "Utils/*" 映射到 "src/utils/*"
+    }
+  },
+  "include": [
+    "src" // 包含的文件或目录
+  ]
+}

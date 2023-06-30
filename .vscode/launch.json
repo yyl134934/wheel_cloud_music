@@ -9,7 +9,10 @@
                         "request": "launch",
                         "name": "针对 localhost 启动 Chrome",
                         "url": "http://localhost:6001",
-                        "webRoot": "${workspaceFolder}"
+                        "webRoot": "${workspaceFolder}",
+                        "sourceMapPathOverrides": {
+                                "webpack:///src/*": "${webRoot}/*"
+                        }
                 }
         ]
 }

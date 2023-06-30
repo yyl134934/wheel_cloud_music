@@ -8,11 +8,20 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@types/create-keyframe-animation": "^0.1.0",
+    "@types/jest": "^29.5.2",
+    "@types/node": "^20.3.2",
+    "@types/react": "^18.2.14",
+    "@types/react-dom": "^18.2.6",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/react-transition-group": "^4.4.6",
+    "@typescript-eslint/parser": "^5.60.1",
     "axios": "^1.4.0",
     "better-scroll": "^2.0.0",
     "create-keyframe-animation": "^0.1.0",
+    "husky": "^8.0.3",
     "immer": "^10.0.2",
-    "prop-types": "^15.8.1",
+    "lint-staged": "^13.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-lazyload-v18": "^1.0.0",
@@ -22,8 +31,20 @@
     "react-transition-group": "^4.4.5",
     "styled-components": "^6.0.0-rc.2",
     "swiper": "^9.3.2",
+    "typescript": "^5.1.5",
     "web-vitals": "^2.1.4",
     "zustand": "^4.3.8"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js}": [
+      "eslint --config .eslintrc.js"
+    ],
+    "*.{css,less,scss}": [
+      "stylelint --config .stylelintrc.js"
+    ],
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+    ]
   },
   "scripts": {
     "start": "set PORT=6001 && react-scripts start",
@@ -33,11 +54,41 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest",
+      "eslint:recommended",
       "plugin:storybook/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "root": true,
+    "rules": {},
+    "overrides": [
+      {
+        "files": [
+          "**/*.ts?(x)"
+        ],
+        "rules": {
+          "quotes": [
+            "error",
+            "single"
+          ],
+          "semi": [
+            "error",
+            "always"
+          ],
+          "jsx-quotes": [
+            "error",
+            "prefer-single"
+          ]
+        }
+      }
     ]
   },
   "browserslist": {
@@ -61,7 +112,10 @@
     "@storybook/react": "7.0.23",
     "@storybook/react-webpack5": "7.0.23",
     "@storybook/testing-library": "0.0.14-next.2",
+    "@typescript-eslint/eslint-plugin": "^5.60.1",
     "babel-plugin-named-exports-order": "0.0.2",
+    "eslint": "^8.0.1",
+    "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-storybook": "^0.6.12",
     "prettier": "^2.8.8",
     "storybook": "7.0.23",
