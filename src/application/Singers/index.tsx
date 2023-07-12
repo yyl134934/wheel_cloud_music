@@ -22,11 +22,12 @@ import { getSingerListRequest } from './api';
 function Singers() {
   const navigate = useNavigate();
 
-  const [category, setCategory] = useState<CategoryId>(); // 首字母
-  const [alpha, setAlpha] = useState(''); // 歌手分类
+  const [category, setCategory] = useState<CategoryId>(); // 歌手分类
+  const [alpha, setAlpha] = useState(''); // 首字母
   const {
-    data: { pages } = { pages: [] },
+    data: { pages } = { pages: null },
     isLoading,
+    isError,
     fetchNextPage,
     fetchPreviousPage,
     isFetchingNextPage,
@@ -36,7 +37,7 @@ function Singers() {
     queryFn: ({ pageParam = 0 }) => getSingerListRequest(category, alpha, pageParam),
     refetchOnWindowFocus: false,
     getNextPageParam: (lastPage, allPages) => {
-      if (!lastPage.more) {
+      if (!lastPage?.more) {
         return undefined;
       }
       return allPages.length;
@@ -46,7 +47,7 @@ function Singers() {
 
   const { currentSong } = usePlayingStore((state) => state.state);
 
-  const singerList = useMemo(() => pages?.map(({ artists }) => artists).flat() ?? [], [pages]);
+  const singerList = useMemo(() => pages?.map((page) => page?.artists).flat() ?? [], [pages]);
 
   const handleUpdateAlpha = (val: string) => {
     setAlpha(val);
@@ -82,11 +83,11 @@ function Singers() {
       <List>
         {singerList.map((item, index) => {
           return (
-            <ListItem key={item.accountId + '' + index} onClick={() => enterDetail(item.id)}>
+            <ListItem key={item?.accountId + '' + index} onClick={() => enterDetail(item?.id)}>
               <div className='img_wrapper'>
-                <img src={`${item.picUrl}?param=300x300`} width='100%' height='100%' alt='music' />
+                <img src={`${item?.picUrl}?param=300x300`} width='100%' height='100%' alt='music' />
               </div>
-              <span className='name'>{item.name}</span>
+              <span className='name'>{item?.name}</span>
             </ListItem>
           );
         })}
@@ -94,6 +95,7 @@ function Singers() {
     );
   };
 
+  console.info('isLoadingError:', isError);
   return (
     <>
       <NavContainer>
@@ -113,7 +115,7 @@ function Singers() {
           pullUpLoading={isFetchingPreviousPage}
           pullDownLoading={isFetchingNextPage}
         >
-          {renderSingerList()}
+          {isError ? '' : renderSingerList()}
         </Scroll>
       </ListContainer>
       <Outlet></Outlet>
