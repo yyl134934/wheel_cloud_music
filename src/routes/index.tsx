@@ -3,11 +3,12 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 import Home from '../application/Home';
 import Recommend from '../application/Recommend';
-import Singers from '../application/Singers';
-import Singer from '../application/Singer';
-import Rank from '../application/Rank';
-import Album from '../application/Album';
 import NoFound from '../application/NoFound';
+
+const Singers = React.lazy(() => import('../application/Singers'));
+const Singer = React.lazy(() => import('../application/Singer'));
+const Rank = React.lazy(() => import('../application/Rank'));
+const Album = React.lazy(() => import('../application/Album'));
 
 export const pathConfig = [
   {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Top, Tab, TabItem } from './style';
 import { NavLink, Outlet } from 'react-router-dom';
 import Player from '../Player';
@@ -32,7 +32,9 @@ function Home() {
         </NavLink>
       </Tab>
       {/* 渲染子路由 */}
-      <Outlet />
+      <Suspense>
+        <Outlet />
+      </Suspense>
       <Player></Player>
     </div>
   );
