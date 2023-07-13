@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const baseUrl = 'http://localhost:7001/';
+export const baseUrl = 'https://wheel-cloud-music-api.vercel.app/?vercelToolbarCode=ky8Pu0MjzkipY3q';
 
 //axios 的实例及拦截器配置
 const axiosInstance = axios.create({
