@@ -16,6 +16,7 @@ function Player() {
   );
   const toastRef = useRef<any>(null);
   const audioRef = useRef<any>(null);
+  const songReady = useRef(true);
   //记录当前的歌曲，以便于下次重渲染时比对是否是一首歌
   const [preSong, setPreSong] = useState<any>();
   //目前播放时间
@@ -84,18 +85,32 @@ function Player() {
     handleNext();
   };
 
+  /**
+   * 歌曲加载完成之前，禁止切换歌曲
+   * @param current
+   */
+  const playingProtect = (current: any) => {
+    if (songReady.current) {
+      songReady.current = false; // 把标志位置为 false, 表示现在新的资源没有缓冲完成，不能切歌
+      updateCurrentSong(current);
+    }
+  };
+
   useEffect(() => {
-    if (
-      !playList.length ||
-      currentIndex === -1 ||
-      !playList[currentIndex] ||
-      playList[currentIndex]?.id === preSong?.id
-    )
+    const hasNotReady =
+      !playList.length || currentIndex === -1 || !playList[currentIndex] || playList[currentIndex]?.id === preSong?.id;
+    if (hasNotReady) {
       return;
+    }
+
     const current = playList[currentIndex];
     updateCurrentIndex(currentIndex); //currentIndex默认为-1，临时改成0
     updateCurrentSong(current); //赋值currentSong
     setPreSong(current);
+
+    // 歌曲加载完成之前，禁止切换歌曲
+    playingProtect(current);
+
     audioRef.current.src = getSongUrl(current.id); //url
     togglePlaying(); //播放状态
     setCurrentTime(0); //从头开始播放
@@ -105,6 +120,11 @@ function Player() {
   useEffect(() => {
     playing ? audioRef.current.play() : audioRef.current.pause();
   }, [playing]);
+
+  const handleError = () => {
+    songReady.current = true;
+    alert('播放出错');
+  };
 
   const normalPlayerConfig = {
     song: currentSong,
@@ -144,7 +164,7 @@ function Player() {
         </>
       )}
       <NormalPlayer {...normalPlayerConfig}></NormalPlayer>
-      <audio ref={audioRef} onTimeUpdate={updateTime} onEnded={handleEnd}></audio>
+      <audio ref={audioRef} onTimeUpdate={updateTime} onEnded={handleEnd} onError={handleError}></audio>
       <Toast text={modeText} ref={toastRef}></Toast>
     </div>
   );
