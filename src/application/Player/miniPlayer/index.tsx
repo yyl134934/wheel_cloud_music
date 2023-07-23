@@ -13,11 +13,18 @@ interface MiniPlayerProps {
   percent: number;
   toggleFullScreen: (fullScreen: boolean) => void;
   clickPlaying: (e: React.MouseEvent<HTMLElement>, playing: boolean) => void;
+  togglePlayList: (open: boolean) => void;
 }
 function MiniPlayer(props: MiniPlayerProps) {
   const { song, fullScreen, playing, percent } = props;
-  const { toggleFullScreen, clickPlaying } = props;
+  const { toggleFullScreen, clickPlaying, togglePlayList } = props;
   const nodeRef = useRef<any>(null);
+
+  const handleTogglePlayList = (e: React.MouseEvent<HTMLElement>) => {
+    togglePlayList(true);
+    console.log('🚀🐍 ~ file: index.tsx:25 ~ handleTogglePlayList ~ true:', true);
+    e.stopPropagation();
+  };
 
   const ctConfig = {
     nodeRef,
@@ -57,7 +64,7 @@ function MiniPlayer(props: MiniPlayerProps) {
             )}
           </ProgressCircle>
         </div>
-        <div className='control'>
+        <div className='control' onClick={handleTogglePlayList}>
           <i className='iconfont'>&#xe640;</i>
         </div>
       </MiniPlayerContainer>

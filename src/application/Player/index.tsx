@@ -8,12 +8,22 @@ import Toast from '../../baseUI/Toast';
 import { playMode } from '../../api/config';
 import { isEmptyObject } from '../../api/utils';
 import { usePlayingStore } from '../../store';
+import PlayList from './playList';
 
 function Player() {
-  const { fullScreen, playing, playList, mode, currentIndex, currentSong } = usePlayingStore((state) => state.state);
-  const { togglePlaying, toggleFullScreen, updateCurrentIndex, updateCurrentSong } = usePlayingStore(
-    (state) => state.actions,
-  );
+  const { state, actions } = usePlayingStore((state) => state);
+  const { fullScreen, playing, playList, mode, currentIndex, currentSong, showPlayList } = state;
+  const {
+    togglePlaying,
+    toggleFullScreen,
+    updateCurrentIndex,
+    updateCurrentSong,
+    togglePlayList,
+    updatePlayList,
+    clearPlayList,
+    deleteSong,
+  } = actions;
+
   const toastRef = useRef<any>(null);
   const audioRef = useRef<any>(null);
   const songReady = useRef(true);
@@ -143,6 +153,7 @@ function Player() {
       changePlayingMode();
       changeToastText();
     },
+    togglePlayList: togglePlayList,
   };
 
   const miniPlayerConfig = {
@@ -154,6 +165,20 @@ function Player() {
     percent: percent, //进度
     toggleFullScreen: toggleFullScreen,
     clickPlaying: clickPlaying,
+    togglePlayList: togglePlayList,
+  };
+
+  const playListConfig = {
+    showPlayList: showPlayList,
+    playList: playList,
+    currentSong: currentSong,
+    mode: mode,
+    currentIndex: currentIndex,
+    togglePlayList: togglePlayList,
+    updatePlayList: updatePlayList,
+    updateCurrentIndex: updateCurrentIndex,
+    clearPlayList: clearPlayList,
+    deleteSong: deleteSong,
   };
 
   return (
@@ -166,6 +191,7 @@ function Player() {
       <NormalPlayer {...normalPlayerConfig}></NormalPlayer>
       <audio ref={audioRef} onTimeUpdate={updateTime} onEnded={handleEnd} onError={handleError}></audio>
       <Toast text={modeText} ref={toastRef}></Toast>
+      <PlayList {...playListConfig} />
     </div>
   );
 }

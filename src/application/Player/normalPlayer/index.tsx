@@ -23,29 +23,23 @@ interface Props {
   handlePrev: () => void;
   handleNext: () => void;
   changeMode: () => void;
+  togglePlayList: (open: boolean) => void;
 }
 
 const NormalPlayer: React.FC<Props> = (props) => {
-  const {
-    song,
-    fullScreen,
-    playing,
-    percent,
-    duration,
-    currentTime,
-    mode,
-    toggleFullScreen,
-    clickPlaying,
-    onProgressChange,
-    handlePrev,
-    handleNext,
-    changeMode,
-  } = props;
+  const { song, fullScreen, playing, percent, duration, currentTime, mode } = props;
+  const { toggleFullScreen, clickPlaying, onProgressChange, handlePrev, handleNext, changeMode, togglePlayList } =
+    props;
 
   const nodeRef = useRef<any>(null);
   const cdWrapperRef = useRef<any>(null);
 
   const { enter, afterEnter, leave, afterLeave } = useKeyframeAnimation(nodeRef, cdWrapperRef);
+
+  const handleTogglePlayList = (e: React.MouseEvent<HTMLElement>) => {
+    togglePlayList(true);
+    e.stopPropagation();
+  };
 
   // getPlayMode方法
   const getPlayMode = (): string => {
@@ -114,7 +108,7 @@ const NormalPlayer: React.FC<Props> = (props) => {
             <div className='icon i-right' onClick={handleNext}>
               <i className='iconfont'>&#xe718;</i>
             </div>
-            <div className='icon i-right'>
+            <div className='icon i-right' onClick={handleTogglePlayList}>
               <i className='iconfont'>&#xe640;</i>
             </div>
           </Operators>

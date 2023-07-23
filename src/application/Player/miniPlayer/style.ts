@@ -77,6 +77,7 @@ export const MiniPlayerContainer = styled.div`
       font-size: 30px;
       color: ${globalStyle['theme-color']};
     }
+    cursor: pointer;
     .icon-mini {
       font-size: 16px;
       position: absolute;
