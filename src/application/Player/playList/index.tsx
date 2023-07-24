@@ -3,7 +3,7 @@ import { CSSTransition } from 'react-transition-group';
 import Scroll from '../../../baseUI/scroll';
 import Confirm from './../../../baseUI/confirm/index';
 import { ListContent, ListHeader, PlayListWrapper, ScrollWrapper } from './style';
-import { useCSSTransition } from './hooks';
+import { useCSSTransition, useSlideDown } from './hooks';
 import { playMode } from '../../../api/config';
 import { getName } from '../../../api/utils';
 import { usePlayingMode } from '../hooks';
@@ -28,8 +28,16 @@ function PlayList(props: PlayListProps) {
   const { togglePlayList, updateCurrentIndex, updatePlayList, clearPlayList, deleteSong, updatePlayMode } = props;
 
   const nodeRef = useRef<HTMLDivElement | null>(null);
-  const listWrapperRef = useRef<HTMLDivElement | null>(null);
+  const listWrapperRef = useRef<any>(null);
   const confirmRef = useRef<any>(null);
+
+  const {
+    ref: listContentRef,
+    handleScroll,
+    handleTouchStart,
+    handleTouchMove,
+    handleTouchEnd,
+  } = useSlideDown(listWrapperRef, togglePlayList);
 
   const changePlayingMode = usePlayingMode({
     sequencePlayList,
@@ -69,6 +77,7 @@ function PlayList(props: PlayListProps) {
     const content = current ? '&#xe6e3;' : '';
     return <i className={`current iconfont ${className}`} dangerouslySetInnerHTML={{ __html: content }}></i>;
   };
+
   const getPlayMode = () => {
     let content, text;
     if (mode === playMode.sequence) {
@@ -114,7 +123,14 @@ function PlayList(props: PlayListProps) {
         style={isShow === true ? { display: 'block' } : { display: 'none' }}
         onClick={() => togglePlayList(false)}
       >
-        <div className='list_wrapper' ref={listWrapperRef}>
+        <div
+          className='list_wrapper'
+          ref={listWrapperRef}
+          onClick={(e) => e.stopPropagation()}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           <ListHeader>
             <h1 className='title'>
               {getPlayMode()}
@@ -124,7 +140,7 @@ function PlayList(props: PlayListProps) {
             </h1>
           </ListHeader>
           <ScrollWrapper>
-            <Scroll>
+            <Scroll ref={listContentRef} onScroll={(pos: any) => handleScroll(pos)} bounceTop={false}>
               <ListContent>
                 {playList.map((item, index) => {
                   return (
