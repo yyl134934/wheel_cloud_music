@@ -12,7 +12,7 @@ import PlayList from './playList';
 
 function Player() {
   const { state, actions } = usePlayingStore((state) => state);
-  const { fullScreen, playing, playList, mode, currentIndex, currentSong, showPlayList } = state;
+  const { fullScreen, playing, playList, sequencePlayList, mode, currentIndex, currentSong, showPlayList } = state;
   const {
     togglePlaying,
     toggleFullScreen,
@@ -22,6 +22,7 @@ function Player() {
     updatePlayList,
     clearPlayList,
     deleteSong,
+    updatePlayMode,
   } = actions;
 
   const toastRef = useRef<any>(null);
@@ -36,7 +37,14 @@ function Player() {
   //歌曲播放进度
   let percent = isNaN(currentTime / duration) ? 0 : currentTime / duration;
 
-  const changePlayingMode = usePlayingMode();
+  const changePlayingMode = usePlayingMode({
+    sequencePlayList,
+    mode,
+    currentSong,
+    updatePlayList,
+    updateCurrentIndex,
+    updatePlayMode,
+  });
   const { modeText, changeToastText } = useToastText(toastRef);
 
   const clickPlaying = useCallback((e: any, state: any) => {
@@ -171,6 +179,7 @@ function Player() {
   const playListConfig = {
     showPlayList: showPlayList,
     playList: playList,
+    sequencePlayList: sequencePlayList,
     currentSong: currentSong,
     mode: mode,
     currentIndex: currentIndex,
@@ -179,6 +188,7 @@ function Player() {
     updateCurrentIndex: updateCurrentIndex,
     clearPlayList: clearPlayList,
     deleteSong: deleteSong,
+    updatePlayMode: updatePlayMode,
   };
 
   return (

@@ -6,10 +6,12 @@ import { ListContent, ListHeader, PlayListWrapper, ScrollWrapper } from './style
 import { useCSSTransition } from './hooks';
 import { playMode } from '../../../api/config';
 import { getName } from '../../../api/utils';
+import { usePlayingMode } from '../hooks';
 
 interface PlayListProps {
   showPlayList: boolean;
   playList: any[];
+  sequencePlayList: any[];
   currentSong: any;
   mode: any;
   currentIndex: number;
@@ -18,16 +20,25 @@ interface PlayListProps {
   updateCurrentIndex: (index: number) => void;
   clearPlayList: () => void;
   deleteSong: (song: any) => void;
+  updatePlayMode: (mode: number) => void;
 }
 
 function PlayList(props: PlayListProps) {
-  const { showPlayList, playList, currentSong, mode, currentIndex } = props;
-  const { togglePlayList, updateCurrentIndex, clearPlayList, deleteSong } = props;
+  const { showPlayList, playList, sequencePlayList, currentSong, mode, currentIndex } = props;
+  const { togglePlayList, updateCurrentIndex, updatePlayList, clearPlayList, deleteSong, updatePlayMode } = props;
 
   const nodeRef = useRef<HTMLDivElement | null>(null);
   const listWrapperRef = useRef<HTMLDivElement | null>(null);
   const confirmRef = useRef<any>(null);
 
+  const changePlayingMode = usePlayingMode({
+    sequencePlayList,
+    mode,
+    currentSong,
+    updatePlayList,
+    updateCurrentIndex,
+    updatePlayMode,
+  });
   const { isShow, onEnterCB, onEnteringCB, onExitingCB, onExitedCB } = useCSSTransition(nodeRef);
 
   const handleSwitchPlayingSong = (index: number) => {
@@ -79,7 +90,11 @@ function PlayList(props: PlayListProps) {
       </div>
     );
   };
-  const changeMode = (e: any) => {};
+
+  const changeMode = (e: any) => {
+    e.stopPropagation();
+    changePlayingMode();
+  };
 
   const ctConfig = {
     nodeRef,

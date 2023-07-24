@@ -4,9 +4,18 @@ import { useMemo } from 'react';
 import { useState } from 'react';
 import { usePlayingStore } from '../../store';
 
-const usePlayingMode = () => {
-  const { sequencePlayList, mode, currentSong } = usePlayingStore((state) => state.state);
-  const { updatePlayList, updateCurrentIndex, updatePlayMode } = usePlayingStore((state) => state.actions);
+interface PlayingModeProps {
+  sequencePlayList: any[];
+  mode: number;
+  currentSong: any;
+  updatePlayList: (list: any[]) => void;
+  updateCurrentIndex: (index: number) => void;
+  updatePlayMode: (mode: number) => void;
+}
+
+const usePlayingMode = (props: PlayingModeProps) => {
+  const { sequencePlayList, mode, currentSong } = props;
+  const { updatePlayList, updateCurrentIndex, updatePlayMode } = props;
 
   const orderMode = useCallback(() => {
     //顺序模式
