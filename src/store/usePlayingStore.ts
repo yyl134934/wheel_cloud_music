@@ -28,6 +28,7 @@ interface Actions {
   deleteSong: (song: any) => void;
   clearPlayList: () => void;
   updateSequencePlayList: (sequencePlayList: any[]) => void;
+  insertSongInPlayList: (song: any) => void;
 }
 
 export type Store = { state: State; actions: Actions };
@@ -71,6 +72,7 @@ const store = (set: any, get: any): Store => ({
       ),
     updateSequencePlayList: (sequencePlayList) =>
       set(produce((state: Store) => ({ state: { ...state.state, sequencePlayList } }))),
+    insertSongInPlayList: (song: any) => set(produce((state: Store) => ({ state: insertSong(state.state, song) }))),
   },
 });
 
@@ -101,6 +103,82 @@ const onDeleteSong = (state: State, song: any): State => {
     currentIndex: nextCurrentIndex,
     sequencePlayList: sequencePlayListAlternate,
   };
+};
+
+const toEqualsCurrentSong = (state: any, song: any) => {
+  const { playList, currentIndex } = state;
+
+  //正在播放的歌曲，是否是当前歌曲
+  let fpIndex = findIndex(song, playList);
+
+  return fpIndex === currentIndex && currentIndex !== -1;
+};
+
+const onExistCurrentSong = (state: any, song: any) => {
+  const { playList, currentIndex } = state;
+  let fpIndex = findIndex(song, playList);
+  let nextIndext = currentIndex + 1;
+  // 把歌放进去,放到当前播放曲目的下一个位置
+  playList.splice(currentIndex, 0, song);
+  // 如果列表中已经存在要添加的歌，暂且称它oldSong
+  if (fpIndex > -1) {
+    // 如果oldSong的索引在目前播放歌曲的索引小，那么删除它，同时当前index要减一
+    if (currentIndex > fpIndex) {
+      playList.splice(fpIndex, 1);
+      nextIndext--;
+    } else {
+      // 否则直接删掉oldSong
+      playList.splice(fpIndex + 1, 1);
+    }
+  }
+
+  return { playList, currentIndex: nextIndext };
+};
+
+const insertSongInSequencePlayList = (state: any, song: any) => {
+  const { playList, sequencePlayList, currentIndex } = state;
+
+  let nextIndext = currentIndex + 1;
+  // 处理顺序列表
+  let sequenceIndex = findIndex(playList[nextIndext], sequencePlayList) + 1;
+  let fsIndex = findIndex(song, sequencePlayList);
+  // 插入歌曲
+  sequencePlayList.splice(sequenceIndex, 0, song);
+  if (fsIndex > -1) {
+    //跟上面类似的逻辑。如果在前面就删掉，index--;如果在后面就直接删除
+    if (sequenceIndex > fsIndex) {
+      sequencePlayList.splice(fsIndex, 1);
+      sequenceIndex--;
+    } else {
+      sequencePlayList.splice(fsIndex + 1, 1);
+    }
+  }
+  return sequencePlayList;
+};
+
+const insertSong = (state: State, song: any) => {
+  const { playList, currentIndex, sequencePlayList } = state;
+
+  // 克隆，避免immer
+  const playListAlternate = playList.slice();
+  const currentIndexAlternate = currentIndex;
+  const sequencePlayListAlternate = sequencePlayList.slice();
+
+  const stateClones = {
+    playList: playListAlternate,
+    currentIndex: currentIndexAlternate,
+    sequencePlayList: sequencePlayListAlternate,
+  };
+
+  //正在播放的歌曲，是否是当前歌曲
+  if (toEqualsCurrentSong(stateClones, song)) {
+    return state;
+  }
+  //播放列表是否已存在当前歌曲
+  const result = onExistCurrentSong(stateClones, song);
+  //处理顺序列表
+  const newSequence = insertSongInSequencePlayList(stateClones, song);
+  return { ...state, ...result, sequencePlayList: newSequence };
 };
 
 export { usePlayingStore };

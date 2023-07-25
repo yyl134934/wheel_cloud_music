@@ -9,6 +9,7 @@ const Singers = React.lazy(() => import('../application/Singers'));
 const Singer = React.lazy(() => import('../application/Singer'));
 const Rank = React.lazy(() => import('../application/Rank'));
 const Album = React.lazy(() => import('../application/Album'));
+const Search = React.lazy(() => import('../application/Search'));
 
 export const pathConfig = [
   {
@@ -48,6 +49,14 @@ export const pathConfig = [
             element: <Album />,
           },
         ],
+      },
+      {
+        path: '/album/:id',
+        element: <Album />,
+      },
+      {
+        path: 'search',
+        element: <Search />,
       },
     ],
   },

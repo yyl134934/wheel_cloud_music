@@ -14,6 +14,7 @@ const MarqueeWrapper = styled.div`
   white-space: nowrap;
   overflow: hidden;
   animation: ${marquee} 5s linear infinite;
+  z-index: -1;
   &:hover {
     animation-play-state: paused;
   }

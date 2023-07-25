@@ -15,6 +15,7 @@ function RankComponent() {
     queryKey: ['rank'],
     queryFn: getRankListRequest,
     refetchOnWindowFocus: false,
+    refetchOnMount: false,
   });
 
   const { currentSong } = usePlayingStore((state) => state.state);
