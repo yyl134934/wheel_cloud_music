@@ -1,8 +1,12 @@
 import { findIndex, shuffle } from '../../api/utils';
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import { useMemo } from 'react';
 import { useState } from 'react';
 import { usePlayingStore } from '../../store';
+import { DisplayLyric } from '../../entity/common';
+import { useQuery } from '@tanstack/react-query';
+import { getLyricRequest } from './api';
+import LyricParser from '../../utils/lyric-parser';
 
 interface PlayingModeProps {
   sequencePlayList: any[];
@@ -84,4 +88,65 @@ const useToastText = (toastRef: any) => {
   return { modeText, changeToastText };
 };
 
-export { usePlayingMode, useToastText };
+const useLyricParser = (songReady: any, audioRef: any) => {
+  const currentLyric = useRef<LyricParser | null>(null);
+  const currentLineNum = useRef(0);
+  const [playingLyric, setPlayingLyric] = useState('');
+
+  const paramId = useRef('');
+
+  const {
+    isError,
+    isSuccess,
+    data: { lrc: { lyric } } = { lrc: { lyric: '' } },
+  } = useQuery({
+    queryKey: ['lyric', { id: paramId.current }],
+    queryFn: () => getLyricRequest(paramId.current),
+    refetchOnWindowFocus: false,
+    // refetchOnMount: false,
+    enabled: !!paramId.current,
+  });
+  if (isError) {
+    songReady.current = true;
+    audioRef.current.play();
+  }
+
+  const handleLyric = ({ txt, lineNum }: DisplayLyric) => {
+    if (!currentLyric.current) {
+      return;
+    }
+    currentLineNum.current = lineNum;
+    setPlayingLyric(txt);
+  };
+
+  if (isSuccess) {
+    if (!lyric) {
+      currentLyric.current = null;
+    }
+    if (lyric && lyric !== currentLyric.current?.lrc) {
+      currentLyric.current?.stop();
+      currentLyric.current = new LyricParser(lyric, handleLyric);
+      currentLineNum.current = 0;
+    }
+  }
+
+  function getLyric(id: string) {
+    paramId.current = id;
+  }
+
+  function playLyric(currentTime: number) {
+    if (currentLyric.current) {
+      currentLyric.current.togglePlay(currentTime * 1000);
+    }
+  }
+
+  function updateLyricProgress(newTime: number) {
+    if (currentLyric.current) {
+      currentLyric.current.seek(newTime * 1000);
+    }
+  }
+
+  return { currentLyric, playingLyric, currentLineNum, playLyric, getLyric, updateLyricProgress };
+};
+
+export { usePlayingMode, useToastText, useLyricParser };

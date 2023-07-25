@@ -95,7 +95,6 @@ function Singers() {
     );
   };
 
-  console.info('isLoadingError:', isError);
   return (
     <>
       <NavContainer>

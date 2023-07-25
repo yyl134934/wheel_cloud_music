@@ -16,7 +16,7 @@ function Recommend() {
   // 轮播图数据
   const { data: { banners: bannerList = [] } = { banners: [] }, isLoading: isBannerLoading } = useQuery<BannerResponed>(
     {
-      queryKey: ['bannerList'] as QueryKey,
+      queryKey: ['bannerList'],
       queryFn: getBannerRequest,
       refetchOnWindowFocus: false,
     },

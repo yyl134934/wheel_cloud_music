@@ -1,6 +1,6 @@
 import React from 'react';
 import { SongList, SongItem } from './style';
-import { getName } from '../../api/utils';
+import { getCount, getName } from '../../api/utils';
 import { useCallback } from 'react';
 import { usePlayingStore } from '../../store';
 import { HotSong } from '../Singer/entity';
@@ -58,7 +58,7 @@ const SongsList = React.forwardRef((props: SongsListProps, refs: any) => {
     return (
       <div className='add_list'>
         <i className='iconfont'>&#xe62d;</i>
-        <span> 收藏 ({Math.floor(count / 1000) / 10} 万)</span>
+        <span> 收藏 ({getCount(count)})</span>
       </div>
     );
   };

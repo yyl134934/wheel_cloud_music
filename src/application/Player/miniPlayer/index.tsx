@@ -4,7 +4,7 @@ import ProgressCircle from '../../../baseUI/progress-circle';
 import { MiniPlayerContainer } from './style';
 import { CSSTransition } from 'react-transition-group';
 import { useRef } from 'react';
-import { HotSong } from 'Src/application/Singer/entity';
+import { HotSong } from '../../../application/Singer/entity';
 
 interface MiniPlayerProps {
   song: HotSong;

@@ -1,13 +1,25 @@
 //normalPlayer/index.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { formatPlayTime, getName } from '../../../api/utils';
-import { NormalPlayerContainer, Top, Middle, Bottom, Operators, CDWrapper, ProgressWrapper } from './style';
+import {
+  NormalPlayerContainer,
+  Top,
+  Middle,
+  Bottom,
+  Operators,
+  CDWrapper,
+  ProgressWrapper,
+  LyricContainer,
+  LyricWrapper,
+} from './style';
 import { CSSTransition } from 'react-transition-group';
 import { useRef } from 'react';
 import useKeyframeAnimation from './hooks';
 import ProgressBar from '../../../baseUI/progress-bar';
 import { playMode } from '../../../api/config';
-import { HotSong } from 'Src/application/Singer/entity';
+import LyricParser from '../../../utils/lyric-parser';
+import Scroll from '../../../baseUI/scroll';
+import { HotSong } from '../../Singer/entity';
 
 interface Props {
   song: HotSong;
@@ -17,6 +29,9 @@ interface Props {
   duration: number;
   currentTime: number;
   mode: any;
+  currentLineNum: number;
+  currentPlayingLyric: string;
+  currentLyric: LyricParser | null;
   toggleFullScreen: (fullScreen: boolean) => void;
   clickPlaying: (e: React.MouseEvent, playing: boolean) => void;
   onProgressChange: (percent: number) => void;
@@ -27,14 +42,36 @@ interface Props {
 }
 
 const NormalPlayer: React.FC<Props> = (props) => {
-  const { song, fullScreen, playing, percent, duration, currentTime, mode } = props;
+  const {
+    song,
+    fullScreen,
+    playing,
+    percent,
+    duration,
+    currentTime,
+    mode,
+    currentLineNum,
+    currentPlayingLyric,
+    currentLyric,
+  } = props;
   const { toggleFullScreen, clickPlaying, onProgressChange, handlePrev, handleNext, changeMode, togglePlayList } =
     props;
 
   const nodeRef = useRef<any>(null);
   const cdWrapperRef = useRef<any>(null);
 
+  const [isShowLyric, setShowLyric] = useState(false);
+
+  const lyricScrollRef = useRef<any>();
+  const lyricLineRefs = useRef<any[]>([]);
+  const cdWrapperNodeRef = useRef<any>(null);
+  const lyricContainerNodeRef = useRef<any>(null);
+
   const { enter, afterEnter, leave, afterLeave } = useKeyframeAnimation(nodeRef, cdWrapperRef);
+
+  const toggleCurrentState = () => {
+    setShowLyric(!isShowLyric);
+  };
 
   const handleTogglePlayList = (e: React.MouseEvent<HTMLElement>) => {
     togglePlayList(true);
@@ -54,6 +91,19 @@ const NormalPlayer: React.FC<Props> = (props) => {
     return content;
   };
 
+  useEffect(() => {
+    if (!lyricScrollRef.current) return;
+    let bScroll = lyricScrollRef.current.getBScroll();
+    if (currentLineNum > 5) {
+      // 保持当前歌词在第 5 条的位置
+      let lineEl = lyricLineRefs.current[currentLineNum - 5].current;
+      bScroll.scrollToElement(lineEl, 1000);
+    } else {
+      // 当前歌词行数 <=5, 直接滚动到最顶端
+      bScroll.scrollTo(0, 0, 1000);
+    }
+  }, [currentLineNum]);
+
   const ctConfig = {
     nodeRef,
     classNames: 'normal',
@@ -63,7 +113,10 @@ const NormalPlayer: React.FC<Props> = (props) => {
     onEnter: enter,
     onEntered: afterEnter,
     onExit: leave,
-    onExited: afterLeave,
+    onExited: () => {
+      afterLeave();
+      setShowLyric(false);
+    },
   };
 
   return (
@@ -80,12 +133,40 @@ const NormalPlayer: React.FC<Props> = (props) => {
           <h1 className='title'>{song.name}</h1>
           <h1 className='subtitle'>{getName(song.ar)}</h1>
         </Top>
-        <Middle ref={cdWrapperRef}>
-          <CDWrapper>
-            <div className='cd'>
-              <img className='image play' src={song.al?.picUrl + '?param=400x400'} alt='' />
-            </div>
-          </CDWrapper>
+        <Middle ref={cdWrapperRef} onClick={toggleCurrentState}>
+          <CSSTransition nodeRef={cdWrapperNodeRef} timeout={400} classNames='fade' in={!isShowLyric}>
+            <CDWrapper ref={cdWrapperNodeRef}>
+              <div className='cd'>
+                <img className='image play' src={song.al?.picUrl + '?param=400x400'} alt='' />
+              </div>
+              <p className='playing_lyric'>{currentPlayingLyric}</p>
+            </CDWrapper>
+          </CSSTransition>
+          <CSSTransition nodeRef={lyricContainerNodeRef} timeout={400} classNames='fade' in={isShowLyric}>
+            <LyricContainer ref={lyricContainerNodeRef}>
+              <Scroll ref={lyricScrollRef}>
+                <LyricWrapper style={{ visibility: isShowLyric ? 'visible' : 'hidden' }} className='lyric_wrapper'>
+                  {currentLyric ? (
+                    currentLyric?.lyricList.map((item, index) => {
+                      // 拿到每一行歌词的 DOM 对象，后面滚动歌词需要！
+                      lyricLineRefs.current[index] = React.createRef();
+                      return (
+                        <p
+                          className={`text ${currentLineNum === index ? 'current' : ''}`}
+                          key={item.time + index}
+                          ref={lyricLineRefs.current[index]}
+                        >
+                          {item.txt}
+                        </p>
+                      );
+                    })
+                  ) : (
+                    <p className='text pure'> 纯音乐，请欣赏。</p>
+                  )}
+                </LyricWrapper>
+              </Scroll>
+            </LyricContainer>
+          </CSSTransition>
         </Middle>
         <Bottom className='bottom'>
           <ProgressWrapper>

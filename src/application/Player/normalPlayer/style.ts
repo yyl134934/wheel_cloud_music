@@ -69,7 +69,7 @@ export const Top = styled.div`
       font-size: 24px;
       color: ${globalStyle['font-color-desc']};
       font-weight: bold;
-      transform: rotate (90deg);
+      transform: rotate(90deg);
     }
   }
   .title {
@@ -196,5 +196,33 @@ export const Operators = styled.div`
   }
   .icon-favorite {
     color: ${globalStyle['theme-color']};
+  }
+`;
+export const LyricContainer = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+`;
+export const LyricWrapper = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  p {
+    line-height: 32px;
+    color: rgba(255, 255, 255, 0.5);
+    white-space: normal;
+    font-size: ${globalStyle['font-size-l']};
+    &.current {
+      color: #fff;
+    }
+    &.pure {
+      position: relative;
+      top: 30vh;
+    }
   }
 `;

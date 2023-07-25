@@ -4,7 +4,7 @@ import { Pagination, Autoplay, Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { Banner } from 'Src/application/Recommend/entity';
+import { Banner } from '../../application/Recommend/entity';
 
 /**
  * 轮播组件

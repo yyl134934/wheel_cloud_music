@@ -173,4 +173,4 @@ function PlayList(props: PlayListProps) {
     </CSSTransition>
   );
 }
-export default PlayList;
+export default React.memo(PlayList);

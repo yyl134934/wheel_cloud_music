@@ -1,6 +1,5 @@
 import React from 'react';
-import { Meta, Story } from '@storybook/react';
-import Toast from '../baseUI/Toast';
+import Toast from '../baseUI/toast';
 
 export default {
   title: 'BaseUI/Toast',

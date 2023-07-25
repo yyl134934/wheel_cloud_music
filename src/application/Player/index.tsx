@@ -3,8 +3,8 @@ import MiniPlayer from './miniPlayer';
 import NormalPlayer from './normalPlayer';
 import { useCallback } from 'react';
 import { getSongUrl } from '../../api/requst';
-import { usePlayingMode, useToastText } from './hooks';
-import Toast from '../../baseUI/Toast';
+import { useLyricParser, usePlayingMode, useToastText } from './hooks';
+import Toast from '../../baseUI/toast';
 import { playMode } from '../../api/config';
 import { isEmptyObject } from '../../api/utils';
 import { usePlayingStore } from '../../store';
@@ -29,7 +29,7 @@ function Player() {
   const audioRef = useRef<any>(null);
   const songReady = useRef(true);
   //记录当前的歌曲，以便于下次重渲染时比对是否是一首歌
-  const [preSong, setPreSong] = useState<any>();
+  const preSong = useRef<any>();
   //目前播放时间
   const [currentTime, setCurrentTime] = useState(0);
   //歌曲总时长
@@ -47,22 +47,36 @@ function Player() {
   });
   const { modeText, changeToastText } = useToastText(toastRef);
 
-  const clickPlaying = useCallback((e: any, state: any) => {
-    e.stopPropagation();
-    togglePlaying();
-    // state ? audioRef.current.play() : audioRef.current.pause();
-  }, []);
+  const { currentLyric, playingLyric, currentLineNum, playLyric, updateLyricProgress, getLyric } = useLyricParser(
+    songReady,
+    audioRef,
+  );
 
   const updateTime = (e: any) => {
     setCurrentTime(e.target.currentTime);
   };
 
-  const onProgressChange = (curPercent: any) => {
-    const newTime = curPercent * duration;
-    setCurrentTime(newTime);
-    audioRef.current.currentTime = newTime;
-    togglePlaying();
-  };
+  const clickPlaying = useCallback(
+    (e: any, state: any) => {
+      e.stopPropagation();
+      togglePlaying();
+      // state ? audioRef.current.play() : audioRef.current.pause();
+      playLyric(currentTime);
+    },
+    [togglePlaying, playLyric, currentTime],
+  );
+
+  const onProgressChange = useCallback(
+    (curPercent: any) => {
+      const newTime = curPercent * duration;
+      setCurrentTime(newTime);
+      audioRef.current.currentTime = newTime;
+      togglePlaying(true);
+
+      updateLyricProgress(newTime);
+    },
+    [audioRef, duration, togglePlaying, updateLyricProgress],
+  );
 
   //一首歌循环
   const handleLoop = () => {
@@ -116,7 +130,10 @@ function Player() {
 
   useEffect(() => {
     const hasNotReady =
-      !playList.length || currentIndex === -1 || !playList[currentIndex] || playList[currentIndex]?.id === preSong?.id;
+      !playList.length ||
+      currentIndex === -1 ||
+      !playList[currentIndex] ||
+      playList[currentIndex]?.id === preSong.current?.id;
     if (hasNotReady) {
       return;
     }
@@ -124,16 +141,19 @@ function Player() {
     const current = playList[currentIndex];
     updateCurrentIndex(currentIndex); //currentIndex默认为-1，临时改成0
     updateCurrentSong(current); //赋值currentSong
-    setPreSong(current);
+    preSong.current = current;
 
     // 歌曲加载完成之前，禁止切换歌曲
     playingProtect(current);
+
+    // 加载歌曲歌词
+    getLyric(current.id);
 
     audioRef.current.src = getSongUrl(current.id); //url
     togglePlaying(); //播放状态
     setCurrentTime(0); //从头开始播放
     setDuration((current.dt / 1000) | 0); //时长
-  }, [playList, currentIndex, preSong]);
+  }, [playList, currentIndex, preSong.current]);
 
   useEffect(() => {
     playing ? audioRef.current.play() : audioRef.current.pause();
@@ -152,6 +172,9 @@ function Player() {
     currentTime: currentTime, //播放时间
     percent: percent, //进度
     mode: mode,
+    currentLyric: currentLyric.current,
+    currentPlayingLyric: playingLyric,
+    currentLineNum: currentLineNum.current,
     toggleFullScreen: toggleFullScreen,
     clickPlaying: clickPlaying,
     onProgressChange: onProgressChange,
@@ -186,7 +209,11 @@ function Player() {
     togglePlayList: togglePlayList,
     updatePlayList: updatePlayList,
     updateCurrentIndex: updateCurrentIndex,
-    clearPlayList: clearPlayList,
+    clearPlayList: () => {
+      clearPlayList();
+      toggleFullScreen(false);
+      preSong.current = null;
+    },
     deleteSong: deleteSong,
     updatePlayMode: updatePlayMode,
   };

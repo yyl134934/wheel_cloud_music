@@ -4,7 +4,7 @@ export interface SingerResponed {
   hotSongs: HotSong;
 }
 
-interface HotSong {
+export interface HotSong {
   al: {
     picUrl?: string;
   };

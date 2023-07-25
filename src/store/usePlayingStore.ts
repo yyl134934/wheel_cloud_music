@@ -18,7 +18,7 @@ interface State {
 }
 
 interface Actions {
-  togglePlaying: () => void;
+  togglePlaying: (playing?: boolean) => void;
   toggleFullScreen: (fullScreen: boolean) => void;
   togglePlayList: (open: boolean) => void;
   updateCurrentIndex: (currentIndex: number) => void;
@@ -45,7 +45,8 @@ const store = (set: any, get: any): Store => ({
     currentSong: {},
   },
   actions: {
-    togglePlaying: () => set(produce((state: Store) => ({ state: { ...state.state, playing: !state.state.playing } }))),
+    togglePlaying: (playing?: boolean) =>
+      set(produce((state: Store) => ({ state: { ...state.state, playing: playing ?? !state.state.playing } }))),
     toggleFullScreen: (fullScreen) => set(produce((state: Store) => ({ state: { ...state.state, fullScreen } }))),
     togglePlayList: (open: boolean) =>
       set(produce((state: Store) => ({ state: { ...state.state, showPlayList: open } }))),

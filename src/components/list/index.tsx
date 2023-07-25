@@ -3,7 +3,7 @@ import Lazyload from 'react-lazyload-v18';
 import { ListWrapper, ListItem, List } from './style';
 import { getCount } from '../../api/utils';
 import { useNavigate } from 'react-router';
-import { Recommend } from 'Src/application/Recommend/entity';
+import { Recommend } from '../../application/Recommend/entity';
 
 interface ListProps<T extends Recommend> {
   listData: T[];
