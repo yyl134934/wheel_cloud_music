@@ -4,10 +4,10 @@ import NormalPlayer from './normalPlayer';
 import { useCallback } from 'react';
 import { getSongUrl } from '../../api/requst';
 import { useLyricParser, usePlayingMode, useToastText } from './hooks';
-import Toast from '../../baseUI/toast';
 import { playMode } from '../../api/config';
 import { isEmptyObject } from '../../api/utils';
 import { usePlayingStore } from '../../store';
+import Toast from '../../baseUI/toast';
 import PlayList from './playList';
 
 function Player() {
