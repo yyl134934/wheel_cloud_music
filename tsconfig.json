@@ -19,15 +19,15 @@
     "isolatedModules": true, // 可以将每个文件作为单独的模块编译
     "noEmit": true, // 不输出编译后生成的任何文件
     "jsx": "react-jsx", // 指定 JSX 语法类型
-    "baseUrl": "./", // 设置根路径
-    "paths": {
-      // 路径映射，与 baseUrl 关联
-      "Src/*": ["src/*"], // 将 "Src/*" 映射到 "src/*"
-      "Components/*": ["src/components/*"], // 将 "Components/*" 映射到 "src/components/*"
-      "Api/*": ["src/api/*"], // 将 "Api/*" 映射到 "src/api/*"
-      "BaseUI/*": ["src/baseUI/*"], // 将 "BaseUI/*" 映射到 "src/baseUI/*"
-      "Utils/*": ["src/utils/*"] // 将 "Utils/*" 映射到 "src/utils/*"
-    }
+    "baseUrl": "./" // 设置根路径
+    // "paths": {
+    //   // 路径映射，与 baseUrl 关联
+    //   "Src/*": ["src/*"], // 将 "Src/*" 映射到 "src/*"
+    //   "Components/*": ["src/components/*"], // 将 "Components/*" 映射到 "src/components/*"
+    //   "Api/*": ["src/api/*"], // 将 "Api/*" 映射到 "src/api/*"
+    //   "BaseUI/*": ["src/baseUI/*"], // 将 "BaseUI/*" 映射到 "src/baseUI/*"
+    //   "Utils/*": ["src/utils/*"] // 将 "Utils/*" 映射到 "src/utils/*"
+    // }
   },
   "include": [
     "src" // 包含的文件或目录
