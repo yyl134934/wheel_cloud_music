@@ -2,6 +2,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import style from '../../assets/global-style';
+import { Marquee } from '../marquee';
 
 const HeaderContainer = styled.div`
   position: fixed;
@@ -42,9 +43,9 @@ const Header = React.forwardRef((props: HeaderProps = initailHeader, ref: any) =
         &#xe655;
       </i>
       {isMarquee ? (
-        <marquee>
+        <Marquee>
           <h1>{title}</h1>
-        </marquee>
+        </Marquee>
       ) : (
         <h1>{title}</h1>
       )}
