@@ -1,5 +1,5 @@
 import React from 'react';
-import { RouterProvider, createHashRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { IconStyle } from './assets/iconfont/iconfont';
@@ -7,7 +7,7 @@ import router from './routes';
 import { GlobalStyle } from './style';
 
 const App: React.FC = () => {
-  const routes = createHashRouter(router);
+  const routes = createBrowserRouter(router);
   const queryClient = new QueryClient();
 
   return (
