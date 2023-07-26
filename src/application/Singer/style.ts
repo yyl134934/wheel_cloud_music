@@ -78,12 +78,12 @@ export const CollectButton = styled.div`
   }
 `;
 
-export const SongListWrapper = styled.div<{ notPlaying: boolean }>`
+export const SongListWrapper = styled.div<{ $notPlaying: boolean }>`
   position: absolute;
   z-index: 50;
   top: 0;
   left: 0;
-  bottom: ${(props) => (props.notPlaying ? 0 : '60px')};
+  bottom: ${(props) => (props.$notPlaying ? 0 : '60px')};
   right: 0;
   > div {
     position: absolute;

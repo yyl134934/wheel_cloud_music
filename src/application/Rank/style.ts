@@ -3,10 +3,10 @@ import style from '../../assets/global-style';
 
 // Props 中的 globalRank 和 tracks.length 均代表是否为全球榜
 
-export const Container = styled.div<{ notPlaying: boolean }>`
+export const Container = styled.div<{ $notPlaying: boolean }>`
   position: fixed;
   top: 90px;
-  bottom: ${(props) => (props.notPlaying ? 0 : '60px')};
+  bottom: ${(props) => (props.$notPlaying ? 0 : '60px')};
   width: 100%;
   .offical,
   .global {

@@ -70,7 +70,7 @@ function RankComponent() {
   let displayStyle = isLoading ? { display: 'none' } : { display: '' };
 
   return (
-    <Container notPlaying={isEmptyObject(currentSong)}>
+    <Container $notPlaying={isEmptyObject(currentSong)}>
       <Scroll>
         <div>
           <h1 className='offical' style={displayStyle}>

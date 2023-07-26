@@ -24,7 +24,7 @@ export const ScrollContainer = styled.div`
   overflow: hidden;
 `;
 
-export const PullUpLoading = styled.div`
+export const PullDownLoading = styled.div`
   position: absolute;
   left: 0;
   right: 0;
@@ -35,7 +35,7 @@ export const PullUpLoading = styled.div`
   z-index: 100;
 `;
 
-export const PullDownLoading = styled.div`
+export const PullUpLoading = styled.div`
   position: absolute;
   left: 0;
   right: 0;

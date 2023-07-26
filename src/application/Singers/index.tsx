@@ -106,7 +106,7 @@ function Singers() {
         ></Horizon>
         <Horizon list={alphaTypes} title={'首字母:'} handleClick={handleUpdateAlpha} oldVal={alpha}></Horizon>
       </NavContainer>
-      <ListContainer notPlaying={isEmptyObject(currentSong)}>
+      <ListContainer $notPlaying={isEmptyObject(currentSong)}>
         <Scroll
           direction={'vertical'}
           pullDown={handlePullDown}

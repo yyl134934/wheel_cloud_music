@@ -163,7 +163,7 @@ function Search() {
       unmountOnExit
       onExited={() => navigate(-1)}
     >
-      <Container notPlaying={!playList.length} ref={nodeRef}>
+      <Container $notPlaying={!playList.length} ref={nodeRef}>
         <div className='search_box_wrapper'>
           <SearchBox back={searchBack} newQuery={query} handleQuery={handleQuery}></SearchBox>
         </div>

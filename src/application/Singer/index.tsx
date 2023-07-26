@@ -120,7 +120,7 @@ function Singer() {
           <span className='text'>收藏</span>
         </CollectButton>
         <BgLayer ref={layer}></BgLayer>
-        <SongListWrapper ref={songScrollWrapper} notPlaying={isEmptyObject(currentSong)}>
+        <SongListWrapper ref={songScrollWrapper} $notPlaying={isEmptyObject(currentSong)}>
           <Scroll ref={songScroll} onScroll={handleScroll}>
             <SongsList
               songs={songsOfArtist as HotSong[]}

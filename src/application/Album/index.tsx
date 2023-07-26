@@ -122,7 +122,7 @@ function Album() {
       unmountOnExit
       onExited={goback}
     >
-      <Container ref={nodeRef} notPlaying={isEmptyObject(currentSong)}>
+      <Container ref={nodeRef} $notPlaying={isEmptyObject(currentSong)}>
         <Header ref={headerEl} title={title} handleClick={handleBack} isMarquee={isMarquee}></Header>
         {isLoading ? <EnterLoading></EnterLoading> : null}
         <Scroll bounceTop={false} onScroll={handleScroll}>

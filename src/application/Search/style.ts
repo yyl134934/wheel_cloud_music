@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import globalStyle from '../../assets/global-style';
 
-export const Container = styled.div<{ notPlaying: boolean }>`
+export const Container = styled.div<{ $notPlaying: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  bottom: ${(props) => (props.notPlaying ? 0 : '60px')};
+  bottom: ${(props) => (props.$notPlaying ? 0 : '60px')};
   width: 100%;
   z-index: 100;
   overflow: hidden;
