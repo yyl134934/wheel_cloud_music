@@ -1,28 +1,30 @@
 {
-    "css.validate": false,
-    "less.validate": false,
-    "scss.validate": false,
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
 
-    "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
 
-    "search.exclude": {
-      "**/node_modules": true,
-      "dist": true,
-      "build": true
-    },
+  "search.exclude": {
+    "**/node_modules": true,
+    "dist": true,
+    "build": true
+  },
 
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true,
-      "source.fixAll.stylelint": true
-    },
-    "[javascript]": {
-      "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "[javascriptreact]": {
-      "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "[json]": {
-      "editor.defaultFormatter": "esbenp.prettier-vscode"
-    }
-  }
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "fileheader.Author": "yaoc",
+  "fileheader.LastModifiedBy": "yaoc"
+}
