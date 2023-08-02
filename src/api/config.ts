@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const baseUrl = 'https://wheel-cloud-music-api.vercel.app/';
+export const baseUrl = `https://${process.env.REACT_APP_DOMAIN}/`;
 
 //axios 的实例及拦截器配置
 const axiosInstance = axios.create({
