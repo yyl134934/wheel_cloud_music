@@ -81,7 +81,9 @@ function Player() {
   //一首歌循环
   const handleLoop = () => {
     audioRef.current.currentTime = 0;
-    if (!playing) togglePlaying();
+    if (!playing) {
+      togglePlaying();
+    }
     audioRef.current.play();
   };
 

@@ -30,8 +30,9 @@ const ToastWrapper = styled.div`
   .text {
     line-height: 50px;
     text-align: center;
-    color: #fff;
+    color: ${globalStyle['font-color-desc']};
     font-size: ${globalStyle['font-size-l']};
+    font-weight: ${globalStyle['font-weight-l']};
   }
 `;
 
